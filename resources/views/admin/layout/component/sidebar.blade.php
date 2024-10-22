@@ -40,7 +40,30 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="menu-item has-children">
+                    <a href="javascript:void(0);" class="menu-item-button">
+                        <div class="icon"><i class="icon-file"></i></div>
+                        <div class="text">Showrooms</div>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item">
+                            <a href="{{ route('showroomcategory.index') }}" class="">
+                                <div class="text">Danh Sách Showrooms</div>
+                            </a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="products.html" class="">
+                                <div class="text">Thống Kê Showrooms</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item has-children">
+                    <a href="javascript:void(0);" class="menu-item-button">
+                        <div class="icon"><i class="icon-file"></i></div>
+                        <div class="text">Banner</div>
+                    </a>
+                </li>
                 <li class="menu-item">
                     <a href="settings.html" class="">
                         <div class="icon"><i class="icon-settings"></i></div>
