@@ -4,17 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Discount extends Model
 {
     use HasFactory;
-
+    use SoftDeletes;
     protected $fillable = [
         'code',
         'discount_rate',
         'max_value',
         'start_date',
         'end_date',
+<<<<<<< Updated upstream
+=======
+        'use_limit',
+        'status'
+>>>>>>> Stashed changes
     ];
 
     protected $casts = [
@@ -26,6 +31,13 @@ class Discount extends Model
         'use_count' => 'integer'
     ];
 
+<<<<<<< Updated upstream
+=======
+    public function scopeGetDiscount($request){
+        return $request->where('end_date', '>', now());
+    }
+
+>>>>>>> Stashed changes
     public function orders()
     {
         return $this->hasMany(Order::class);
