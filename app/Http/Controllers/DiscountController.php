@@ -3,15 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\DiscountCreateRequest;
+use App\Http\Requests\DiscountUpdateRequest;
 use App\Models\Discount;
+use Illuminate\Http\Request;
 
 class DiscountController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $discounts = Discount::all();
-        return view('admin.discounts.index', compact('discounts'));
+        $query = Discount::query();
+        $countDeleted = Discount::onlyTrashed()->count();
+
+        if ($request->input('deleted') == 'daxoa') {
+            $getDelete = Discount::onlyTrashed()->paginate(10);
+            $config = 'deleted';
+            return view('admin.discounts.index', compact('countDeleted', 'config', 'getDelete'));
+        } else {
+            if ($request->has('search')) {
+                $query->where('code', 'like', '%' . $request->search . '%');
+            }
+            $discounts = $query->paginate(10);
+            $config = 'index';
+        }
+
+        return view('admin.discounts.index', compact('discounts', 'countDeleted', 'config'));
     }
 
     public function create()
@@ -19,42 +35,52 @@ class DiscountController extends Controller
         return view('admin.discounts.create');
     }
 
-    public function store(Request $request)
+    public function store(DiscountCreateRequest $request)
     {
-        $request->validate([
-            'code' => 'required|unique:discounts',
-            'discount_rate' => 'required|numeric',
-            'max_value' => 'required|numeric',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-        ]);
+        $discount = Discount::create($request->validated() + ['status' => $request->status]);
 
-        Discount::create($request->all());
-        return redirect()->route('admin.discounts.index')->with('success', 'Mã giảm giá đã được tạo thành công!');
+        if ($discount) {
+            toastr()->success('Thêm mới thành công!');
+        } else {
+            toastr()->error('Thêm mới không thành công.');
+        }
+        return redirect()->route('admin.discounts.index');
     }
 
-    public function edit(Discount $discount)
+    public function edit($id)
     {
+        $discount = Discount::findOrFail($id);
         return view('admin.discounts.edit', compact('discount'));
     }
 
-    public function update(Request $request, Discount $discount)
+    public function update(DiscountUpdateRequest $request, $id)
     {
-        $request->validate([
-            'code' => 'required|unique:discounts,code,' . $discount->id,
-            'discount_rate' => 'required|numeric',
-            'max_value' => 'required|numeric',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-        ]);
+        $discount = Discount::findOrFail($id);
+        $updated = $discount->update($request->validated() + ['status' => $request->status]);
 
-        $discount->update($request->all());
-        return redirect()->route('admin.discounts.index')->with('success', 'Mã giảm giá đã được cập nhật thành công!');
+        if ($updated) {
+            toastr()->success('Cập nhật thành công!');
+        } else {
+            toastr()->error('Cập nhật không thành công.');
+        }
+        return redirect()->route('admin.discounts.index');
     }
 
-    public function destroy(Discount $discount)
+    public function destroy($id)
     {
+        $discount = Discount::findOrFail($id);
         $discount->delete();
-        return redirect()->route('admin.discounts.index')->with('success', 'Mã giảm giá đã được xóa thành công!');
+
+        toastr()->success('Xóa thành công!');
+        return redirect()->route('admin.discounts.index');
+    }
+
+    public function restore($id)
+    {
+        $discount = Discount::onlyTrashed()->findOrFail($id);
+        $discount->restore();
+
+        toastr()->success('Khôi phục thành công!');
+        return redirect()->route('admin.discounts.index');
     }
 }
