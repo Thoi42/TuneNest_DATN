@@ -17,7 +17,7 @@
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <a href="{{ route('postCatagory.index') }}">
+                        <a href="{{ route('postCategory.index') }}">
                             <div class="text-tiny">@yield('crumb_parent')</div>
                         </a>
                     </li>
@@ -41,19 +41,19 @@
                     </div>
                 @endif
                 <form class="tf-section-2 form-add-product" method="post" enctype="multipart/form-data"
-                    action="{{ route('postCatagory.store') }}">
+                    action="{{ route('postCategory.store') }}">
                     @csrf
                     <div class="wg-box">
                         <fieldset class="name">
                             <div class="body-title mb-10">Tiêu đề <span class="tf-color-1">*</span>
                             </div>
                             <input class="mb-10" type="text" placeholder="Nhập tiêu đề danh mục" name="name"
-                            value="{{ old('name', ($postCategory->name) ?? '' ) }}">
+                            value="{{ old('name' ?? '' ) }}">
                         </fieldset>
 
                         <fieldset class="description">
                             <div class="body-title mb-10">Mô tả</div>
-                            <textarea class="mb-10" placeholder="Nhập mô tả" name="description" tabindex="0" aria-required="true">{{ old( 'description', ($postCategory->description) ?? '' ) }}</textarea>
+                            <textarea class="mb-10" placeholder="Nhập mô tả" name="description" tabindex="0" aria-required="true">{{ old( 'description') ?? ''  }}</textarea>
                         </fieldset>
                     </div>
                     <div class="wg-box">

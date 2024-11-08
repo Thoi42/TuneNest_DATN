@@ -15,8 +15,8 @@
                                     <i class="icon-shopping-bag"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Total Orders</div>
-                                    <h4>3</h4>
+                                    <div class="body-text mb-2">Tổng số đơn hàng</div>
+                                    <h4>{{ $countOrder }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -30,8 +30,8 @@
                                     <i class="icon-dollar-sign"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Total Amount</div>
-                                    <h4>481.34</h4>
+                                    <div class="body-text mb-2">Tổng số tiền</div>
+                                    <h4>{{ number_format($totalOrder) }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -45,8 +45,8 @@
                                     <i class="icon-shopping-bag"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Pending Orders</div>
-                                    <h4>3</h4>
+                                    <div class="body-text mb-2">Đơn hàng chờ duyệt</div>
+                                    <h4>{{ $countPending }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -60,8 +60,8 @@
                                     <i class="icon-dollar-sign"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Pending Orders Amount</div>
-                                    <h4>481.34</h4>
+                                    <div class="body-text mb-2">Tổng tiền đơn hàng chờ duyệt</div>
+                                    <h4>{{ number_format($totalPending) }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -78,8 +78,8 @@
                                     <i class="icon-shopping-bag"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Delivered Orders</div>
-                                    <h4>0</h4>
+                                    <div class="body-text mb-2">Đơn hàng đã giao</div>
+                                    <h4>{{ $countDelivered }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -93,8 +93,8 @@
                                     <i class="icon-dollar-sign"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Delivered Orders Amount</div>
-                                    <h4>0.00</h4>
+                                    <div class="body-text mb-2">Tổng tiền đơn hàng đã giao</div>
+                                    <h4>{{ number_format($totalDelivered) }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +108,8 @@
                                     <i class="icon-shopping-bag"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Canceled Orders</div>
-                                    <h4>0</h4>
+                                    <div class="body-text mb-2">Đơn hàng đã hủy</div>
+                                    <h4>{{ $countCanceled }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -123,8 +123,8 @@
                                     <i class="icon-dollar-sign"></i>
                                 </div>
                                 <div>
-                                    <div class="body-text mb-2">Canceled Orders Amount</div>
-                                    <h4>0.00</h4>
+                                    <div class="body-text mb-2">Tổng tiền đơn hàng đã hủy</div>
+                                    <h4>{{ number_format($totalCanceled) }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -136,52 +136,38 @@
 
             <div class="wg-box">
                 <div class="flex items-center justify-between">
-                    <h5>Earnings revenue</h5>
-                    <div class="dropdown default">
-                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            <span class="icon-more"><i class="icon-more-horizontal"></i></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a href="javascript:void(0);">This Week</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">Last Week</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <h5>Biểu đồ doanh thu</h5>
+                   
                 </div>
                 <div class="flex flex-wrap gap40">
                     <div>
                         <div class="mb-2">
                             <div class="block-legend">
                                 <div class="dot t1"></div>
-                                <div class="text-tiny">Revenue</div>
+                                <div class="text-tiny">Doanh thu</div>
                             </div>
                         </div>
                         <div class="flex items-center gap10">
-                            <h4>$37,802</h4>
-                            <div class="box-icon-trending up">
+                            <h4>{{ number_format($totalOrder) }}</h4>
+                            {{-- <div class="box-icon-trending up">
                                 <i class="icon-trending-up"></i>
                                 <div class="body-title number">0.56%</div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div>
                         <div class="mb-2">
                             <div class="block-legend">
                                 <div class="dot t2"></div>
-                                <div class="text-tiny">Order</div>
+                                <div class="text-tiny">Đơn hàng đã giao</div>
                             </div>
                         </div>
                         <div class="flex items-center gap10">
-                            <h4>$28,305</h4>
-                            <div class="box-icon-trending up">
+                            <h4>{{ number_format($totalDelivered) }}</h4>
+                            {{-- <div class="box-icon-trending up">
                                 <i class="icon-trending-up"></i>
                                 <div class="body-title number">0.56%</div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -193,10 +179,10 @@
 
             <div class="wg-box">
                 <div class="flex items-center justify-between">
-                    <h5>Recent orders</h5>
+                    <h5>Các đơn hàng mới</h5>
                     <div class="dropdown default">
-                        <a class="btn btn-secondary dropdown-toggle" href="#">
-                            <span class="view-all">View all</span>
+                        <a class="btn btn-secondary dropdown-toggle" href="{{ route('order.index') }}">
+                            <span class="view-all">Xem tất cả</span>
                         </a>
                     </div>
                 </div>
@@ -205,35 +191,28 @@
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="width: 80px">OrderNo</th>
-                                    <th>Name</th>
-                                    <th class="text-center">Phone</th>
-                                    <th class="text-center">Subtotal</th>
-                                    <th class="text-center">Tax</th>
-                                    <th class="text-center">Total</th>
-
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Order Date</th>
-                                    <th class="text-center">Total Items</th>
-                                    <th class="text-center">Delivered On</th>
-                                    <th></th>
+                                    <th style="width:70px">Mã đơn hàng</th>
+                                    <th class="text-center">Tên khách hàng</th>
+                                    <th class="text-center">Tổng tiền hàng</th>
+                                    <th class="text-center">Trạng thái</th>
+                                    <th class="text-center">Ngày đặt hàng</th>
+                                    <th class="text-center">Số lượng sản phẩm</th>
+                                    <th class="text-center">Ngày giao hàng</th>
+                                    <th class="text-center">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($orders as $order)
                                 <tr>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">Divyansh Kumar</td>
-                                    <td class="text-center">1234567891</td>
-                                    <td class="text-center">$172.00</td>
-                                    <td class="text-center">$36.12</td>
-                                    <td class="text-center">$208.12</td>
-
-                                    <td class="text-center">ordered</td>
-                                    <td class="text-center">2024-07-11 00:54:14</td>
-                                    <td class="text-center">2</td>
-                                    <td></td>
+                                    <td class="text-center">#{{ $order->id }}</td>
+                                    <td class="text-center">{{ $order->customer->name }}</td>
+                                    <td class="text-center">{{ $order->discount ? number_format($order->total - $order->discount->discount_rate) : number_format($order->total) }} VND</td>
+                                    <td class="text-center text-uppercase">{{ $order->status }}</td>
+                                    <td class="text-center">{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
+                                    <td class="text-center">{{ $order->orderDetails->sum('quantity') }}</td>
+                                    <td class="text-center text-uppercase">{{ $order->delivered_at ? $order->delivered_at->format('Y-m-d H:i:s') : $order->status }}</td>
                                     <td class="text-center">
-                                        <a href="#">
+                                        <a href="{{ route('order.show', $order->id) }}">
                                             <div class="list-icon-function view-icon">
                                                 <div class="item eye">
                                                     <i class="icon-eye"></i>
@@ -242,6 +221,7 @@
                                         </a>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -252,10 +232,10 @@
     </div>
 
 </div>
+
 @endsection
 
 @section('css')
-   
 @endsection
 @section('script')
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
@@ -294,8 +274,107 @@
 		})();
 	}
 	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+		console.log('WebSocket is not supported');
+        console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
 	}
 	// ]]>
+</script>
+<script>
+    (function ($) {
+
+        var tfLineChart = (function () {
+
+            var chartBar = function () {
+
+                var options = {
+                    series: [{
+                        name: 'Tổng doanh thu',
+                        data: [{{ $monthlyRevenue[1] ?? 0 }}, {{ $monthlyRevenue[2] ?? 0 }}, {{ $monthlyRevenue[3] ?? 0 }}, {{ $monthlyRevenue[4] ?? 0 }}, {{ $monthlyRevenue[5] ?? 0 }}, {{ $monthlyRevenue[6] ?? 0 }}, {{ $monthlyRevenue[7] ?? 0 }}, {{ $monthlyRevenue[8] ?? 0 }}, {{ $monthlyRevenue[9] ?? 0 }}, {{ $monthlyRevenue[10] ?? 0 }}, {{ $monthlyRevenue[11] ?? 0 }}, {{ $monthlyRevenue[12] ?? 0 }}]
+                    }, {
+                        name: 'Đơn hàng chờ duyệt',
+                        data: [{{ $monthlyPending[1] ?? 0 }}, {{ $monthlyPending[2] ?? 0 }}, {{ $monthlyPending[3] ?? 0 }}, {{ $monthlyPending[4] ?? 0 }}, {{ $monthlyPending[5] ?? 0 }}, {{ $monthlyPending[6] ?? 0 }}, {{ $monthlyPending[7] ?? 0 }}, {{ $monthlyPending[8] ?? 0 }}, {{ $monthlyPending[9] ?? 0 }}, {{ $monthlyPending[10] ?? 0 }}, {{ $monthlyPending[11] ?? 0 }}, {{ $monthlyPending[12] ?? 0 }}]
+                    },
+                    {
+                        name: 'Đơn hàng đã giao',
+                        data: [{{ $monthlyDelivered[1] ?? 0 }}, {{ $monthlyDelivered[2] ?? 0 }}, {{ $monthlyDelivered[3] ?? 0 }}, {{ $monthlyDelivered[4] ?? 0 }}, {{ $monthlyDelivered[5] ?? 0 }}, {{ $monthlyDelivered[6] ?? 0 }}, {{ $monthlyDelivered[7] ?? 0 }}, {{ $monthlyDelivered[8] ?? 0 }}, {{ $monthlyDelivered[9] ?? 0 }}, {{ $monthlyDelivered[10] ?? 0 }}, {{ $monthlyDelivered[11] ?? 0 }}, {{ $monthlyDelivered[12] ?? 0 }}]
+                    }, {
+                        name: 'Đơn hàng đã hủy',
+                        data: [{{ $monthlyCanceled[1] ?? 0 }}, {{ $monthlyCanceled[2] ?? 0 }}, {{ $monthlyCanceled[3] ?? 0 }}, {{ $monthlyCanceled[4] ?? 0 }}, {{ $monthlyCanceled[5] ?? 0 }}, {{ $monthlyCanceled[6] ?? 0 }}, {{ $monthlyCanceled[7] ?? 0 }}, {{ $monthlyCanceled[8] ?? 0 }}, {{ $monthlyCanceled[9] ?? 0 }}, {{ $monthlyCanceled[10] ?? 0 }}, {{ $monthlyCanceled[11] ?? 0 }}, {{ $monthlyCanceled[12] ?? 0 }}]
+                    }],
+                    chart: {
+                        type: 'bar',
+                        height: 325,
+                        toolbar: {
+                            show: false,
+                        },
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '10px',
+                            endingShape: 'rounded'
+                        },
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    legend: {
+                        show: false,
+                    },
+                    colors: ['#2377FC', '#FFA500', '#078407', '#FF0000'],
+                    stroke: {
+                        show: false,
+                    },
+                    xaxis: {
+                        labels: {
+                            style: {
+                                colors: '#212529',
+                            },
+                        },
+                        categories: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                    },
+                    yaxis: {
+                        show: false,
+                    },
+                    fill: {
+                        opacity: 1
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
+                            }
+                        }
+                    }
+                };
+
+                chart = new ApexCharts(
+                    document.querySelector("#line-chart-8"),
+                    options
+                );
+                if ($("#line-chart-8").length > 0) {
+                    chart.render();
+                }
+            };
+
+            /* Function ============ */
+            return {
+                init: function () { },
+
+                load: function () {
+                    chartBar();
+                },
+                resize: function () { },
+            };
+        })();
+
+        jQuery(document).ready(function () { });
+
+        jQuery(window).on("load", function () {
+            tfLineChart.load();
+        });
+
+        jQuery(window).on("resize", function () { });
+    })(jQuery);
 </script>
 @endsection

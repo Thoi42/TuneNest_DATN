@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('publish')->default(1);
-            $table->string('tittle', 255);
+            $table->tinyInteger('publish')->default(2);
+            $table->string('title', 255);
             $table->text('content')->nullable();
             $table->string('image', 225)->nullable();
             $table->text('description')->nullable();
+            $table->string('slug', 255)->unique();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
             
-            $table->unsignedBigInteger('post_category_id');
+            $table->unsignedBigInteger('post_category_id')->nullable();
             $table->unsignedBigInteger('user_id');
             
             $table->foreign('post_category_id')->references('id')->on('post_categories')->onDelete('cascade');

@@ -15,6 +15,8 @@ class Discount extends Model
         'max_value',
         'start_date',
         'end_date',
+        'use_limit',
+        'use_count'
     ];
 
     protected $casts = [
@@ -26,6 +28,9 @@ class Discount extends Model
         'use_count' => 'integer'
     ];
 
+    public function scopeGetDiscount($request){
+        return $request->where('end_date', '>', now());
+    }
     public function orders()
     {
         return $this->hasMany(Order::class);

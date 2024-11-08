@@ -25,52 +25,64 @@ class ProductCategorySeeder extends Seeder
         // Tạo danh mục chính
         $guitar = ProductCategory::create([
             'image' => 'guitar.jpg',
-            'summary' => 'Tất cả các loại guitar',
+            'name' => 'Guitar',
             'publish' => 1,
+            'level' => 1, // Thêm trường level
             'parent_id' => 0,
             'description' => 'Danh mục các loại guitar khác nhau',
+            'slug' => 'guitar', // Thêm trường slug
         ]);
 
         $piano = ProductCategory::create([
             'image' => 'piano.jpg',
-            'summary' => 'Tất cả các loại piano',
+            'name' => 'Piano',
             'publish' => 1,
+            'level' => 1, // Thêm trường level
             'parent_id' => 0,
             'description' => 'Danh mục các loại piano khác nhau',
+            'slug' => 'piano', // Thêm trường slug
         ]);
 
         // Tạo các danh mục con cho Guitar
         ProductCategory::create([
             'image' => 'acoustic_guitar.jpg',
-            'summary' => 'Guitar Acoustic',
+            'name' => 'Guitar Acoustic',
             'publish' => 1,
+            'level' => 2, // Thêm trường level
             'parent_id' => $guitar->id,
             'description' => 'Guitar acoustic dành cho mọi đối tượng',
+            'slug' => 'guitar-acoustic', // Thêm trường slug
         ]);
 
         ProductCategory::create([
             'image' => 'classic_guitar.jpg',
-            'summary' => 'Guitar Classic',
+            'name' => 'Guitar Classic',
             'publish' => 1,
+            'level' => 2, // Thêm trường level
             'parent_id' => $guitar->id,
             'description' => 'Guitar cổ điển với âm thanh sâu lắng',
+            'slug' => 'guitar-classic', // Thêm trường slug
         ]);
 
         // Tạo các danh mục con cho Piano
         ProductCategory::create([
             'image' => 'electric_piano.jpg',
-            'summary' => 'Piano điện',
+            'name' => 'Piano điện',
             'publish' => 1,
+            'level' => 2, // Thêm trường level
             'parent_id' => $piano->id,
             'description' => 'Piano điện tử với âm thanh hiện đại',
+            'slug' => 'piano-dien', // Thêm trường slug
         ]);
 
         ProductCategory::create([
             'image' => 'grand_piano.jpg',
-            'summary' => 'Piano Grand',
+            'name' => 'Piano Grand',
             'publish' => 1,
+            'level' => 2, // Thêm trường level
             'parent_id' => $piano->id,
             'description' => 'Piano Grand với âm thanh tuyệt hảo',
+            'slug' => 'piano-grand', // Thêm trường slug
         ]);
     }
 }

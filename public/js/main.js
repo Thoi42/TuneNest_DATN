@@ -191,15 +191,20 @@
   }
 
   var retinaLogos = function() {
-    var retina = window.devicePixelRatio > 1 ? true : false;
-      if(retina) {
+    var retina = window.devicePixelRatio > 1;
+    if (retina) {
+        var logoPath = '/images/logo/logo.jpg'; // Đường dẫn trực tiếp từ thư mục 'public'
+
         if ($(".dark-theme").length > 0) {
-          $('#logo_header').attr({src:'images/logo/logo.png',width:'154px',height:'52px'});
+
+            $('#logo_header').attr({ src: logoPath, width: '154px', height: '52px' });
         } else {
-          $('#logo_header').attr({src:'images/logo/logo.png',width:'154px',height:'52px'});
+            $('#logo_header').attr({ src: logoPath, width: '154px', height: '52px' });
         }
-      }
-  };  
+    }
+};
+
+
 
   var preloader = function () {
     setTimeout(function () {

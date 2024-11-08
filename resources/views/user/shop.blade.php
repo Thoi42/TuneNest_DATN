@@ -29,7 +29,73 @@
                         <div id="accordion-filter-1" class="accordion-collapse collapse show border-0"
                             aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
                             <div class="accordion-body px-0 pb-0 pt-3">
-                                <ul class="list list-inline mb-0">
+                                {{-- <ul class="category-list">
+                                    @foreach($productCategories as $category)
+                                        <li style="list-style: none; padding-left: {{ 10 * ($category->level - 1) }}px;" class="{{ $category->parent_id == 0 ? 'parent-menu' : 'sub-menu' }}">
+                                            {{ $category->name }}
+                                        </li>
+                                    @endforeach
+                                </ul> --}}
+                                @php
+                                function renderCategories($categories, $parentId = 0, $level = 1) {
+                                    $hasChild = false;
+
+                                    foreach ($categories as $category) {
+                                        if ($category->parent_id == $parentId) {
+                                            if (!$hasChild) {
+                                                $hasChild = true;
+                                                // Tạo tên class dựa trên cấp độ
+                                                $className = 'subcategory-list-parent' . ($level > 1 ? '-' . ($level - 1) : '');
+                                                echo '<ul class="' . $className . '" style="padding-left: ' . (10 * ($level - 1)) . 'px;">';
+                                            }
+
+                                            echo '<li class="menu-item' . ($parentId == 0 ? ' parent-menu' : ' sub-menu') . '">';
+                                                echo '<a href="' . route('shop.category', $category->slug) . '">';
+                                            echo $category->name;
+
+                                            // Gọi đệ quy để hiển thị danh mục con của danh mục hiện tại
+                                            renderCategories($categories, $category->id, $level + 1);
+                                            
+                                            echo '</a>';
+                                            echo '</li>';
+                                        }
+                                    }
+
+                                    if ($hasChild) echo '</ul>';
+                                }
+                                @endphp
+
+                                <ul class="category-list">
+                                    @php
+                                        renderCategories($productCategories);
+                                    @endphp
+                                </ul>   
+                                
+                                
+                                {{-- <ul class="list list-inline mb-0">
+                                    @foreach ($productCategories as $category)
+                                        <li class="menu-item">
+                                            <a href="{{ route('shop.category',$category->slug) }}">{{ $category->name }}</a>
+                                            
+                                            @if ($category->children && $category->children->count() > 0)
+                                                <ul class="submenu">
+                                                    @foreach ($category->children as $childCategory)
+                                                        <li>
+                                                            <a href="{{ route('shop.category' , $childCategory->slug) }}">{{ $childCategory->name }}</a>
+                                                        </li>
+                                                        <ul class="submenu">
+                                                            <li>
+
+                                                            </li>
+                                                        </ul>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul> --}}
+                                <!-- user/shop.blade.php -->
+                                {{-- <ul class="list list-inline mb-0">
                                     @foreach ($allCategories as $category)
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input chk-filter chk-category"
@@ -38,7 +104,7 @@
                                                 for="category-{{ $category->id }}">{{ $category->name }}</label>
                                         </div>
                                     @endforeach
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
                     </div>
@@ -65,7 +131,8 @@
                             aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
                             <div class="search-field multi-select accordion-body px-0 pb-0">
                                 <ul class="list list-inline mb-0 brand-list">
-                                    @foreach ($allBrands as $brand)
+                                    @foreach ($brands as $brand)
+                                    {{-- @foreach ($allBrands as $brand) --}}
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input chk-filter chk-brand"
                                                 value="{{ $brand->id }}" id="brand-{{ $brand->id }}">
@@ -95,12 +162,13 @@
                                 </svg>
                             </button>
                         </h5>
-                        <div class="filter-section">
+                        {{-- <div class="filter-section">
                             <div id="accordion-filter-price" class="accordion-collapse collapse show border-0"
                                 aria-labelledby="accordion-heading-price" data-bs-parent="#price-filters">
                                 <input class="price-range-slider" type="text" name="price_range" value=""
-                                data-slider-min="{{ $minPriceFromDb }}" data-slider-max="{{ $maxPriceFromDb }}" data-slider-step="1000"
-                                data-slider-value="[{{ $minPriceFromDb }},{{ $maxPriceFromDb }}]" data-currency="₫" />                            
+                                    data-slider-min="{{ $minPriceFromDb }}" data-slider-max="{{ $maxPriceFromDb }}"
+                                    data-slider-step="1000"
+                                    data-slider-value="[{{ $minPriceFromDb }},{{ $maxPriceFromDb }}]" data-currency="₫" />
                                 <div class="price-range__info d-flex align-items-center mt-2">
                                     <div class="me-auto">
                                         <span class="text-secondary">Min Price: </span>
@@ -112,10 +180,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
-                
             </div>
 
             <div class="shop-list flex-grow-1">
@@ -141,17 +208,14 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Women's <br /><strong>ACCESSORIES</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are
-                                            the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for
-                                            timeless pieces.</h6>
+                                            {{$banner->title?? 'Đang Cập Nhật'}} <br /><strong>{{$banner->strong_title?? 'Đang Cập Nhật'}}</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">{{$banner->description ?? 'Đang Cập Nhật'}}</h6>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="https://cdn.zenquiz.net/external/2020/04/10/05/3825ea10-7af0-11ea-bf44-050901070303-compressed.jpg" width="630"
-                                            height="450" alt="Women's accessories"
+                                        <img loading="lazy" src="{{ asset($banner->image ?? 'path/to/default/image.jpg') }}" width="630"
+                                            height="450" alt="Đang Cập Nhật"
                                             class="slideshow-bg__img object-fit-cover" />
                                     </div>
                                 </div>
@@ -165,17 +229,14 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Women's <br /><strong>ACCESSORIES</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are
-                                            the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for
-                                            timeless pieces.</h6>
+                                            {{$banner2->title?? 'Đang Cập Nhật'}} <br /><strong>{{$banner2->strong_title?? 'Đang Cập Nhật'}}</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">{{$banner2->description	?? 'Đang Cập Nhật'}}</h6>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="http://designercomvn.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2017/07/26020200/thiet-ke-poster-su-kien-ca-nhac.jpg" width="630"
-                                            height="450" alt="Women's accessories"
+                                        <img loading="lazy" src="{{ asset($banner2->image ?? 'path/to/default/image.jpg') }}" width="630"
+                                            height="450" alt="Đang Cập Nhật"
                                             class="slideshow-bg__img object-fit-cover" />
                                     </div>
                                 </div>
@@ -189,17 +250,14 @@
                                     <div class="slideshow-text container p-3 p-xl-5">
                                         <h2
                                             class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                            Women's <br /><strong>ACCESSORIES</strong></h2>
-                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are
-                                            the best way to
-                                            update your look. Add a title edge with new styles and new colors, or go for
-                                            timeless pieces.</h6>
+                                            {{$banner3->title?? 'Đang Cập Nhật'}} <br /><strong>{{$banner3->strong_title?? 'Đang Cập Nhật'}}</strong></h2>
+                                        <p class="mb-0 animate animate_fade animate_btt animate_delay-5">{{$banner3->description ?? 'Đang Cập Nhật'}}</h6>
                                     </div>
                                 </div>
                                 <div class="slide-split_media position-relative">
                                     <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                        <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630"
-                                            height="450" alt="Women's accessories"
+                                        <img loading="lazy" src="{{ asset($banner3->image ?? 'path/to/default/image.jpg') }}" width="630"
+                                            height="450" alt="Đang Cập Nhật"
                                             class="slideshow-bg__img object-fit-cover" />
                                     </div>
                                 </div>
@@ -270,6 +328,12 @@
                                 <div class="pc__img-wrapper">
                                     <div class="swiper-container background-img js-swiper-slider"
                                         data-settings='{"resizeObserver": true}'>
+                                        <div class="">
+                                            <a href="details.html"><img loading="lazy"
+                                                    src="{{ asset('uploads/products/product/' . $product->image) }}"
+                                                    width="330" height="400" alt="Cropped Faux leather Jacket"
+                                                    class="pc__img"></a>
+                                        </div>
                                         <div class="swiper-wrapper">
                                             <div class="swiper">
                                                 <a href="{{ route('product.detail', $product->slug) }}"><img loading="lazy"
@@ -341,10 +405,10 @@
                                     <button
                                         class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
                                         title="Add To Wishlist">
-                                        <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20"
-                fill="none" xmlns="http://www.w3.org/2000/svg">
-                <use href="#icon_heart" />
-              </svg>
+                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <use href="#icon_heart" />
+                                        </svg>
                                     </button>
                                 </div>
                             </div>

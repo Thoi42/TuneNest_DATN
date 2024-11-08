@@ -1335,9 +1335,9 @@ function pureFadeOut(e) {
     window.location.href='./shop_checkout.html';
   });
 
-  $('.checkout-form .btn-checkout').off('click').on('click', function() {
-    window.location.href='./shop_order_complete.html';
-  });
+  // $('.checkout-form .btn-checkout').off('click').on('click', function() {
+  //   window.location.href='./shop_order_complete.html';
+  // });
 
   document.querySelector('.js-show-register').addEventListener('click', function(e) {
     document.querySelector(this.getAttribute("href")).click();

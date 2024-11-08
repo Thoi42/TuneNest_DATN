@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Http\Middleware\AdminAuth;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Sử dụng Bootstrap cho phân trang
         Paginator::useBootstrap();
+
+        // Đăng ký middleware cho ứng dụng
+        $this->app['router']->aliasMiddleware('AdminAuth', AdminAuth::class);
     }
 }

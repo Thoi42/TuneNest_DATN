@@ -2,8 +2,9 @@
 
     return [
         'publish' => [
-            '-1' => 'Chọn trạnh thái',
-            '0' => 'Không hoạt động',
-            '1' => 'Hoạt động',
+            '0' => 'Trạnh thái',
+            '1' => 'Không hoạt động',
+            '2' => 'Hoạt động',
+            '4' => 'Kho',
         ],
     ];

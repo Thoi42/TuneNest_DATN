@@ -2,9 +2,9 @@
     <div class="wrap">
         <div class="header-left">
             <a href="index-2.html">
-                <img class="" id="logo_header_mobile" alt="" src="images/logo/logo.png"
-                    data-light="images/logo/logo.png" data-dark="images/logo/logo.png" data-width="154px"
-                    data-height="52px" data-retina="images/logo/logo.png">
+                <img class="" id="logo_header_mobile" alt="" src="{{ asset('images/logo/logo.jpg') }}"
+                    data-light="{{ asset('images/logo/logo.jpg') }}" data-dark="{{ asset('images/logo/logo.jpg') }}"
+                    data-width="154px" data-height="52px" data-retina="{{ asset('images/logo/logo.jpg') }}">
             </a>
             <div class="button-show-hide">
                 <i class="icon-menu-left"></i>
@@ -13,7 +13,7 @@
         </div>
         <div class="header-grid">
 
-            <div class="popup-wrap message type-header">
+            {{-- <div class="popup-wrap message type-header">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -77,69 +77,54 @@
                         <li><a href="#" class="tf-button w-full">View all</a></li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
 
 
 
 
             <div class="popup-wrap user type-header">
-                <div class="dropdown">
+                <div class="dropdown d-flex align-items-center">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="header-user wg-user">
+                        <span class="header-user wg-user d-flex align-items-center">
                             <span class="image">
                                 <img src="images/avatar/user-1.png" alt="">
                             </span>
-                            <span class="flex flex-column">
+                            <span class="d-flex flex-column justify-content-center">
                                 <span class="body-title mb-2">Kristin Watson</span>
                                 <span class="text-tiny">Admin</span>
                             </span>
                         </span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end has-content" aria-labelledby="dropdownMenuButton3">
-                        <li>
-                            <a href="#" class="user-item">
-                                <div class="icon">
-                                    <i class="icon-user"></i>
-                                </div>
-                                <div class="body-title-2">Account</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="user-item">
-                                <div class="icon">
-                                    <i class="icon-mail"></i>
-                                </div>
-                                <div class="body-title-2">Inbox</div>
-                                <div class="number">27</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="user-item">
-                                <div class="icon">
-                                    <i class="icon-file-text"></i>
-                                </div>
-                                <div class="body-title-2">Taskboard</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="user-item">
-                                <div class="icon">
-                                    <i class="icon-headphones"></i>
-                                </div>
-                                <div class="body-title-2">Support</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="login.html" class="user-item">
-                                <div class="icon">
-                                    <i class="icon-log-out"></i>
-                                </div>
-                                <div class="body-title-2">Log out</div>
-                            </a>
-                        </li>
-                    </ul>
+                    <a href="{{Route('admin.logout')}}"
+                        class="header-tools__item d-flex align-items-center justify-content-center">
+                        <i class="fa fa-sign-out" style="font-size: 30px;" aria-hidden="true"></i>
+                    </a>
                 </div>
+                
+                <!-- <style>
+                    .dropdown {
+                        display: flex;
+                        align-items: center;
+                    }
+                
+                    .header-user.wg-user {
+                        display: flex;
+                        align-items: center;
+                    }
+                
+                    .header-tools__item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100%;
+                    }
+                
+                    .body-title, .text-tiny {
+                        text-align: center;
+                    }
+                </style> -->
+                
             </div>
 
         </div>

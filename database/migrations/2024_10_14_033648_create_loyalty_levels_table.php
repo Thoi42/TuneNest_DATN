@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('loyalty_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('level_name', 125);
-            $table->decimal('discount_rate',5,2)->default(0);
+            $table->string('level_name');
+            $table->decimal('discount_rate', 5, 2);
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

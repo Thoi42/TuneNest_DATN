@@ -1,6 +1,6 @@
 @extends('admin.layout.layout')
 @section('crumb_parent', 'Danh mục bài viết')
-@section('title', 'Sủa danh mục bài viết')
+@section('title', 'Sửa danh mục bài viết')
 @section('main')
     <div class="main-content-inner">
         <!-- main-content-wrap -->
@@ -17,7 +17,7 @@
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <a href="{{ route('postCatagory.index') }}">
+                        <a href="{{ route('postCategory.index') }}">
                             <div class="text-tiny">@yield('crumb_parent')</div>
                         </a>
                     </li>
@@ -41,7 +41,7 @@
                     </div>
                 @endif
                 <form class="tf-section-2 form-add-product" method="post" enctype="multipart/form-data"
-                    action="{{ route('postCatagory.update', $postCategory->id) }}">
+                    action="{{ route('postCategory.update', $postCategory->slug) }}">
                     @csrf
                     <div class="wg-box">
                         <fieldset class="name">

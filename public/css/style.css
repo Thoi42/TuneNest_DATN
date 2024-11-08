@@ -133,12 +133,11 @@ video {
   outline: 0;
   font: inherit;
   vertical-align: baseline;
-  font-family: inherit;
+  font-family: 'Roboto', sans-serif;
   font-size: 100%;
   font-style: inherit;
   font-weight: inherit;
 }
-
 article,
 aside,
 details,
@@ -172,6 +171,7 @@ body {
   background: #F2F7FB;
   line-height: 1;
   padding: 0 !important;
+  font-family: 'Roboto', sans-serif;
 }
 
 article,
@@ -236,7 +236,8 @@ button,
 input,
 select,
 textarea {
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   color: var(--Body-Text);
   -webkit-font-smoothing: antialiased;
@@ -254,7 +255,8 @@ img {
 }
 
 p {
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
@@ -571,7 +573,7 @@ h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
   color: var(--Heading);
   margin: 0;
   font-weight: 700;
@@ -2112,7 +2114,7 @@ a:hover, a:focus {
 .radio-buttons .item input:checked::before {
   position: absolute;
   content: "\e931";
-  font-family: "icomoon";
+  font-family: "Roboto";
   width: 24px;
   height: 24px;
   font-size: 14px;
@@ -2399,7 +2401,7 @@ a:hover, a:focus {
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-family: "icomoon";
+  font-family: 'Roboto', sans-serif;
   content: "\e931";
   font-size: 18px;
   color: #22C55E;
@@ -2822,7 +2824,7 @@ a:hover, a:focus {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -3027,11 +3029,12 @@ form input[type=color] {
   width: 100%;
   padding: 14px 22px;
   font-size: 14px;
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   line-height: 20px;
   background-color: transparent;
-  border: 1px solid var(--Input);
+  border: 1px solid #d2d2d2;
   border-radius: 12px;
   color: var(--Heading);
   overflow: hidden;
@@ -3053,7 +3056,8 @@ form input[type=search]::placeholder,
 form input[type=tel]::placeholder,
 form input[type=color]::placeholder {
   font-size: 14px;
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   line-height: 20px;
   color: var(--Text-Holder);
@@ -3064,7 +3068,8 @@ form input[type=reset],
 form input[type=submit] {
   padding: 14px 22px;
   font-size: 14px;
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   line-height: 20px;
   background-color: transparent;
@@ -3109,7 +3114,7 @@ fieldset {
   content: "\e934";
   right: 22px;
   top: 50%;
-  font-family: "icomoon";
+  font-family: 'Roboto', sans-serif;
   font-size: 18px;
   color: var(--Body-Text);
   pointer-events: none;
@@ -3146,7 +3151,7 @@ select {
   box-shadow: none;
   width: 100%;
   padding: 14px 22px;
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -3163,7 +3168,7 @@ select {
   -ms-appearance: none;
 }
 select option {
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -3329,7 +3334,7 @@ select.h40 {
   border-radius: 3px;
   background: #292929;
   color: white;
-  font-family: sans-serif, Verdana;
+  font-family: 'Roboto', sans-serif;
   font-size: smaller;
   padding: 3px;
 }
@@ -3366,7 +3371,7 @@ select.h40 {
   top: 0;
   left: 0;
   border-radius: 8px;
-  font-family: "icomoon";
+  font-family: 'Roboto', sans-serif;
   border: 1px solid rgba(35, 119, 252, 0.1);
   background: #E9F2FF;
   font-size: 20px;
@@ -3688,7 +3693,7 @@ select.h40 {
   right: 14px;
   color: #111111;
   font-size: 16px;
-  font-family: "icomoon";
+  font-family: 'Roboto', sans-serif;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -5314,9 +5319,6 @@ select.h40 {
 .layout-wrap.layout-width-boxed.header-position-scrollable.menu-position-scrollable.full-width .section-menu-left {
   left: calc((100vw - 1700px) / 2 - 288px);
 }
-.layout-wrap.layout-width-boxed.header-position-scrollable.menu-position-scrollable.full-width .section-menu-left > .box-logo {
-  left: calc((100vw - 1700px) / 2 - 288px);
-}
 .layout-wrap.layout-width-boxed.header-position-scrollable.menu-position-scrollable.full-width .section-content-right {
   margin-left: -280px;
 }
@@ -6307,5 +6309,13 @@ select.h40 {
     width: 100%;
   }
 }
+/* li {
+  list-style: disc;
+} */
+/* ol li, ul li{
+  font-size: 14px;
+} */
 
 /*# sourceMappingURL=style.css.map */
+
+

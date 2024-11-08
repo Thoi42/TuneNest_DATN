@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 125);
-            $table->tinyInteger('publish')->default(1);
+            $table->tinyInteger('publish')->default(2);
             $table->text('description')->nullable();
             $table->integer('parent_id')->default(0);
             $table->string('image', 225)->nullable();
             $table->datetime('deleted_at')->nullable();
+            $table->tinyInteger('level')->details(1);
+            $table->string('slug', 255)->unique();
             $table->timestamps();
         });
     }

@@ -6,14 +6,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Session Driver
+    | Trình Lưu Trữ Phiên Mặc Định
     |--------------------------------------------------------------------------
     |
-    | This option determines the default session driver that is utilized for
-    | incoming requests. Laravel supports a variety of storage options to
-    | persist session data. Database storage is a great default choice.
+    | Tùy chọn này xác định trình lưu trữ phiên mặc định được sử dụng cho
+    | các yêu cầu đến. Laravel hỗ trợ nhiều tùy chọn lưu trữ để
+    | lưu trữ dữ liệu phiên. Lưu trữ trong cơ sở dữ liệu là một lựa chọn mặc định tuyệt vời.
     |
-    | Supported: "file", "cookie", "database", "apc",
+    | Các tùy chọn hỗ trợ: "file", "cookie", "database", "apc",
     |            "memcached", "redis", "dynamodb", "array"
     |
     */
@@ -22,13 +22,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Lifetime
+    | Thời Gian Tồn Tại của Phiên
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the number of minutes that you wish the session
-    | to be allowed to remain idle before it expires. If you want them
-    | to expire immediately when the browser is closed then you may
-    | indicate that via the expire_on_close configuration option.
+    | Tại đây bạn có thể chỉ định số phút mà bạn muốn phiên
+    | được phép duy trì khi không hoạt động trước khi hết hạn. Nếu bạn muốn
+    | chúng hết hạn ngay khi trình duyệt đóng lại, bạn có thể
+    | chỉ định điều đó thông qua tùy chọn cấu hình expire_on_close.
     |
     */
 
@@ -36,27 +36,27 @@ return [
 
     'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
 
-    /*
+      /*
     |--------------------------------------------------------------------------
-    | Session Encryption
+    | Mã Hóa Phiên
     |--------------------------------------------------------------------------
     |
-    | This option allows you to easily specify that all of your session data
-    | should be encrypted before it's stored. All encryption is performed
-    | automatically by Laravel and you may use the session like normal.
+    | Tùy chọn này cho phép bạn dễ dàng chỉ định rằng tất cả dữ liệu phiên của bạn
+    | nên được mã hóa trước khi được lưu trữ. Tất cả việc mã hóa được thực hiện
+    | tự động bởi Laravel và bạn có thể sử dụng phiên như bình thường.
     |
     */
 
     'encrypt' => env('SESSION_ENCRYPT', false),
 
-    /*
+     /*
     |--------------------------------------------------------------------------
-    | Session File Location
+    | Vị Trí Tệp Phiên
     |--------------------------------------------------------------------------
     |
-    | When utilizing the "file" session driver, the session files are placed
-    | on disk. The default storage location is defined here; however, you
-    | are free to provide another location where they should be stored.
+    | Khi sử dụng trình lưu trữ phiên "file", các tệp phiên sẽ được đặt
+    | trên đĩa. Vị trí lưu trữ mặc định được xác định ở đây; tuy nhiên, bạn
+    | có thể cung cấp một vị trí khác mà chúng nên được lưu trữ.
     |
     */
 
@@ -64,12 +64,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Database Connection
+    | Kết Nối Cơ Sở Dữ Liệu Phiên
     |--------------------------------------------------------------------------
     |
-    | When using the "database" or "redis" session drivers, you may specify a
-    | connection that should be used to manage these sessions. This should
-    | correspond to a connection in your database configuration options.
+    | Khi sử dụng trình lưu trữ phiên "database" hoặc "redis", bạn có thể chỉ định một
+    | kết nối sẽ được sử dụng để quản lý các phiên này. Kết nối này nên
+    | tương ứng với một kết nối trong các tùy chọn cấu hình cơ sở dữ liệu của bạn.
     |
     */
 
@@ -77,27 +77,28 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Database Table
+    | Bảng Cơ Sở Dữ Liệu Phiên
     |--------------------------------------------------------------------------
     |
-    | When using the "database" session driver, you may specify the table to
-    | be used to store sessions. Of course, a sensible default is defined
-    | for you; however, you're welcome to change this to another table.
+    | Khi sử dụng trình lưu trữ phiên "database", bạn có thể chỉ định bảng để
+    | được sử dụng để lưu trữ các phiên. Tất nhiên, một giá trị mặc định hợp lý đã được
+    | xác định cho bạn; tuy nhiên, bạn có thể thay đổi điều này sang bảng khác.
     |
     */
 
     'table' => env('SESSION_TABLE', 'sessions'),
 
-    /*
+   /*
     |--------------------------------------------------------------------------
-    | Session Cache Store
+    | Lưu Trữ Cache Phiên
     |--------------------------------------------------------------------------
     |
-    | When using one of the framework's cache driven session backends, you may
-    | define the cache store which should be used to store the session data
-    | between requests. This must match one of your defined cache stores.
+    | Khi sử dụng một trong các backend phiên dựa trên cache của framework, bạn có
+    | thể xác định lưu trữ cache mà nên được sử dụng để lưu trữ dữ liệu phiên
+    | giữa các yêu cầu. Điều này phải khớp với một trong những lưu trữ cache đã
+    | được định nghĩa của bạn.
     |
-    | Affects: "apc", "dynamodb", "memcached", "redis"
+    | Ảnh hưởng đến: "apc", "dynamodb", "memcached", "redis"
     |
     */
 
@@ -105,12 +106,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Sweeping Lottery
+    | Xổ Số Dọn Dẹp Phiên
     |--------------------------------------------------------------------------
     |
-    | Some session drivers must manually sweep their storage location to get
-    | rid of old sessions from storage. Here are the chances that it will
-    | happen on a given request. By default, the odds are 2 out of 100.
+    | Một số trình lưu trữ phiên phải tự động dọn dẹp vị trí lưu trữ của chúng
+    | để loại bỏ các phiên cũ khỏi lưu trữ. Đây là xác suất mà điều đó
+    | sẽ xảy ra trong một yêu cầu nhất định. Theo mặc định, xác suất là 2 trên 100.
     |
     */
 
@@ -118,12 +119,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Cookie Name
+    | Tên Cookie Phiên
     |--------------------------------------------------------------------------
     |
-    | Here you may change the name of the session cookie that is created by
-    | the framework. Typically, you should not need to change this value
-    | since doing so does not grant a meaningful security improvement.
+    | Tại đây bạn có thể thay đổi tên của cookie phiên được tạo bởi
+    | framework. Thông thường, bạn không cần phải thay đổi giá trị này
+    | vì làm như vậy không mang lại cải thiện bảo mật có ý nghĩa.
     |
     */
 
@@ -134,12 +135,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Cookie Path
+    | Đường Dẫn Cookie Phiên
     |--------------------------------------------------------------------------
     |
-    | The session cookie path determines the path for which the cookie will
-    | be regarded as available. Typically, this will be the root path of
-    | your application, but you're free to change this when necessary.
+    | Đường dẫn cookie phiên xác định đường dẫn mà cookie sẽ
+    | được coi là có sẵn. Thông thường, đây sẽ là đường dẫn gốc của
+    | ứng dụng của bạn, nhưng bạn có thể thay đổi điều này khi cần thiết.
     |
     */
 
@@ -147,12 +148,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Cookie Domain
+    | Miền Cookie Phiên
     |--------------------------------------------------------------------------
     |
-    | This value determines the domain and subdomains the session cookie is
-    | available to. By default, the cookie will be available to the root
-    | domain and all subdomains. Typically, this shouldn't be changed.
+    | Giá trị này xác định miền và các miền phụ mà cookie phiên có
+    | sẵn. Theo mặc định, cookie sẽ có sẵn cho miền gốc và tất cả các miền phụ.
+    | Thông thường, điều này không nên được thay đổi.
     |
     */
 
@@ -160,12 +161,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | HTTPS Only Cookies
+    | Cookie Chỉ Được Gửi Qua HTTPS
     |--------------------------------------------------------------------------
     |
-    | By setting this option to true, session cookies will only be sent back
-    | to the server if the browser has a HTTPS connection. This will keep
-    | the cookie from being sent to you when it can't be done securely.
+    | Bằng cách đặt tùy chọn này thành true, cookie phiên chỉ được gửi lại
+    | cho máy chủ nếu trình duyệt có kết nối HTTPS. Điều này sẽ giữ cho
+    | cookie không được gửi cho bạn khi không thể thực hiện một cách an toàn.
     |
     */
 
@@ -173,12 +174,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | HTTP Access Only
+    | Chỉ Có Quyền Truy Cập HTTP
     |--------------------------------------------------------------------------
     |
-    | Setting this value to true will prevent JavaScript from accessing the
-    | value of the cookie and the cookie will only be accessible through
-    | the HTTP protocol. It's unlikely you should disable this option.
+    | Việc đặt giá trị này thành true sẽ ngăn JavaScript truy cập vào
+    | giá trị của cookie và cookie sẽ chỉ có thể truy cập thông qua
+    | giao thức HTTP. Khả năng bạn nên vô hiệu hóa tùy chọn này là rất thấp.
     |
     */
 
@@ -186,29 +187,30 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Same-Site Cookies
+    | Cookie Same-Site
     |--------------------------------------------------------------------------
     |
-    | This option determines how your cookies behave when cross-site requests
-    | take place, and can be used to mitigate CSRF attacks. By default, we
-    | will set this value to "lax" to permit secure cross-site requests.
+    | Tùy chọn này xác định cách cookie của bạn hành xử khi có yêu cầu chéo trang
+    | diễn ra, và có thể được sử dụng để giảm thiểu các cuộc tấn công CSRF. Theo mặc định,
+    | chúng tôi sẽ đặt giá trị này thành "lax" để cho phép các yêu cầu chéo trang an toàn.
     |
-    | See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value
+    | Xem: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value
     |
-    | Supported: "lax", "strict", "none", null
+    | Hỗ trợ: "lax", "strict", "none", null
     |
     */
 
     'same_site' => env('SESSION_SAME_SITE', 'lax'),
 
+    
     /*
     |--------------------------------------------------------------------------
-    | Partitioned Cookies
+    | Cookie Phân Vùng
     |--------------------------------------------------------------------------
     |
-    | Setting this value to true will tie the cookie to the top-level site for
-    | a cross-site context. Partitioned cookies are accepted by the browser
-    | when flagged "secure" and the Same-Site attribute is set to "none".
+    | Việc đặt giá trị này thành true sẽ gán cookie cho trang chính trong
+    | bối cảnh chéo trang. Cookie phân vùng được trình duyệt chấp nhận
+    | khi được đánh dấu "secure" và thuộc tính Same-Site được đặt là "none".
     |
     */
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class PostCategory extends Model
 {
@@ -17,16 +18,17 @@ class PostCategory extends Model
         'publish',
         'description',
         'level',
+        'slug',
     ];
 
     // hàm lấy với danh mục cha
     public function scopeGetWithParent($query){
-        return $query->with('parent')->orderBy('id', 'DESC');
+        return $query->with('parent');
     }
 
     //hàm lấy category đang hoạt động
     public function scopeGetAllByPublish($query){ 
-        return $query->where('publish', 1)->orderBy('id', 'DESC');
+        return $query->where('publish', 2)->orderBy('id', 'DESC');
     }
 
     // hàm search
@@ -35,7 +37,7 @@ class PostCategory extends Model
         if(isset($request['keyword'])){
             $query->where('name', 'LIKE', '%' . $request['keyword'] . '%');
         }
-        if($request['publish'] >= 0){
+        if(isset($request['publish']) && $request['publish'] > 0){
             $query->where('publish', $request['publish']);
         }
         return $query->orderBy('id', 'DESC')->paginate(10);
@@ -43,6 +45,7 @@ class PostCategory extends Model
 
     public static function recursive($postCategories, $parents = 0, $level = 1, &$listCategories){
         if(count($postCategories) > 0){ // nếu tồn tại
+            
             foreach($postCategories as $key => $val){ 
                 
                 if ($val->parent_id == $parents) { // tại category == 0 tức là cha
@@ -62,9 +65,30 @@ class PostCategory extends Model
         }
     }
     
+    public function scopeGetPostCategoryByParentId($query, $parent_id){
+        return $query->where('parent_id', $parent_id)->orderBy('id', 'DESC');
+    }
+
+    public function scopeGenerateUniqueSlug($query, $str)
+    {
+        // Tạo slug 
+        $slug = Str::slug($str);
+
+        // tìm xem slug có tồn tại hay chưa
+        $count = $query->withTrashed()->where('slug', 'LIKE', "{$slug}%")->count();
+
+        // Nếu có trùng lặp, thêm hậu tố
+        return $count ? "{$slug}-{$count}" : $slug;
+    }
+
     // kết nối chính nó để lấy danh sách parent
     public function parent(){
         return $this->belongsTo(PostCategory::class, 'parent_id');
+    }
+
+    // quan hệ posts 1-N
+    public function posts() {
+        return $this->hasMany(Post::class, 'post_category_id', 'id');
     }
 
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->tinyInteger('publish')->default(1);
             $table->string('image',125)->nullable();
             $table->string('address',255)->nullable();
-            $table->string('password',50);
+            $table->string('password',225);
             $table->string('phone',50);
             $table->timestamp('deleted_at')->nullable();
             $table->unsignedBigInteger('role_id');
