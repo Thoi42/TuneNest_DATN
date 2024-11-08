@@ -35,16 +35,19 @@
                         </li>
                         <li class="sub-menu-item">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                             <a href="products.html" class="">
                                 <div class="text">Bài viêt</div>
 =======
+=======
+>>>>>>> Stashed changes
                             <a href="{{ route('post.index') }}" class="">
                                 <div class="text">Bài viết</div>
->>>>>>> Stashed changes
                             </a>
                         </li>
                     </ul>
                 </li>
+<<<<<<< Updated upstream
 
                 <li class="menu-item has-children">
                     <a href="javascript:void(0);" class="menu-item-button">
@@ -70,6 +73,64 @@
                 <li class="menu-item has-children">
                     <a href="javascript:void(0);" class="menu-item-button">
                         <div class="icon"><i class="icon-tag"></i></div>
+=======
+                <li class="menu-item has-children">
+                    <a href="javascript:void(0);" class="menu-item-button">
+                        <div class="icon"><i class="icon-file"></i></div>
+                        <div class="text">Showrooms</div>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item">
+                            <a href="{{ route('showroomcategory.index') }}" class="">
+                                <div class="text">Danh Sách Showrooms</div>
+                            </a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="{{route('Kho.index')}}" class="">
+                                <div class="text">Sản Phẩm Trong Kho Tổng</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item ">
+                    <a href="{{ route('Kho.index')}}" class="menu-item-button">
+                        <div class="icon"><i class="icon-layers"></i></div>
+                        <div class="text">Kho</div>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a href="{{ route('banner.index')}}" class="menu-item-button">
+                        <div class="icon"><i class="icon-layers"></i></div>
+                        <div class="text">Banner</div>
+                    </a>
+                </li>
+                <li class="menu-item has-children">
+                    <a href="javascript:void(0);" class="menu-item-button">
+                        <div class="icon"><i class="icon-shopping-cart"></i></div>
+                        <div class="text">Sản phẩm</div>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item">
+                            <a href="{{ route('productCategory.index')}}" class="">
+                                <div class="text">Danh mục sản phẩm</div>
+                            </a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="{{ route('product.index')}}" class="">
+                                <div class="text">Sản phẩm</div>
+                            </a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="{{ route('brand.index')}}" class="">
+                                <div class="text">Thương hiệu</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item has-children">
+                    <a href="javascript:void(0);" class="menu-item-button">
+                        <div class="icon"><i class="fas fa-percentage"></i></div>
+>>>>>>> Stashed changes
                         <div class="text">Mã Giảm Giá</div>
                     </a>
                     <ul class="sub-menu">
@@ -85,6 +146,10 @@
                         </li>
                     </ul>
                 </li>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+             
 >>>>>>> Stashed changes
                 <li class="menu-item">
                     <a href="settings.html" class="">
