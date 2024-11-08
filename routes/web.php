@@ -168,6 +168,7 @@ Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'cha
         Route::get('/pending', [AdminOrderController::class, 'OrderPending'])->name('order.pending');
         Route::get('/detail/{id}', [AdminOrderController::class, 'OrderDetail'])->name('order.detail');
     });
+<<<<<<< Updated upstream
 =======
 >>>>>>> Stashed changes
     Route::prefix('voucher')->group(function () {
@@ -183,6 +184,20 @@ Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'cha
 <<<<<<< Updated upstream
 =======
  });
+>>>>>>> Stashed changes
+=======
+    Route::prefix('admin/discounts')->name('admin.discounts.')->group(function () {
+        Route::get('/', [DiscountController::class, 'index'])->name('index');
+        Route::get('/create', [DiscountController::class, 'create'])->name('create');
+        Route::post('/', [DiscountController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [DiscountController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [DiscountController::class, 'update'])->name('update');
+        Route::delete('/{id}', [DiscountController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [DiscountController::class, 'restore'])->name('restore');
+    });
+//     });
+// });
+//  });
 >>>>>>> Stashed changes
 
 
@@ -207,6 +222,21 @@ Route::prefix('wishlist')->group(function () {
     Route::delete('/remove/{id}', [FavouriteController::class, 'remove'])->name('wishlist.remove'); // Xóa sản phẩm khỏi wishlist
 });
 
+<<<<<<< Updated upstream
 Route::post('/wishlist/add/{id}', [FavouriteController::class, 'add'])->name('wishlist.add');
 
+>>>>>>> Stashed changes
+=======
+// ADMIN LOGIN
+Route::get('admin/login', [AdminController::class, 'login'])->name('admin.login');
+Route::post('admin/login', [AdminController::class, 'check_login'])->name('admin.check_login');
+
+// ADMIN LOGOUT
+Route::post('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+// Footer 
+Route::get('/shop/category/piano', [ProductController::class, 'category'])->name('category.piano');
+Route::get('/shop/category/guitar', [ProductController::class, 'category'])->name('category.guitar');
+Route::get('/shop/category/electric-guitar', [ProductController::class, 'category'])->name('category.electric_guitar');
+Route::get('/shop/category/classic-guitar', [ProductController::class, 'category'])->name('category.classic_guitar');
+Route::get('/shop/category', [ProductController::class, 'index'])->name('products.all');
 >>>>>>> Stashed changes
