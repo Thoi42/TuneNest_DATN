@@ -270,7 +270,8 @@
                           </a>
                           <form action="{{ route('wishlist.add', $product->id) }}" method="POST" style="display:inline;">
                               @csrf
-                              <button type="submit" class="menu-link menu-link_us-s add-to-wishlist">
+                              
+                              <button type="submit" class="button-28 add-to-wishlist">
                                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <use href="#icon_heart" />
                                   </svg>
@@ -353,7 +354,7 @@
                   </button>
                   <form action="{{ route('wishlist.add', $product->id) }}" method="POST" style="display:inline;">
                       @csrf
-                      <button type="submit" class="menu-link menu-link_us-s add-to-wishlist">
+                      <button type="submit" class="menu-link menu-link_us-s ">
                           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <use href="#icon_heart" />
                           </svg>
