@@ -21,6 +21,6 @@ class LoyaltyLevel extends Model
 
     public function customers()
     {
-        return $this->hasMany(Customer::class, 'loyalty_level_id', 'id');
+        return $this->hasMany(Customer::class);
     }
 }

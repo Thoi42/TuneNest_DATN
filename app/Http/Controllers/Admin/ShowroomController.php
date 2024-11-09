@@ -44,20 +44,29 @@ public function store(ShowroomRequest $request)
     // Lấy tên showroom từ input và chuẩn hóa về chữ thường
     $inputName = strtolower($request->input('name'));
 
-    // Kiểm tra xem có showroom nào đã có tên chứa từ "kho" và đã publish là 4
-    $existingShowroom = Showroom::where('name', 'like', '%kho%')->where('publish', 4)->first();
+    // Kiểm tra nếu tên showroom có chứa "kho" (không phân biệt chữ hoa/thường)
+    if (preg_match('/kho/i', $inputName)) {
+        // Kiểm tra xem trong database đã có showroom nào có tên chứa "kho" và publish = 4 chưa
+        $existingShowroom = Showroom::whereRaw("LOWER(name) REGEXP 'kho'")->where('publish', 4)->first();
 
-    // Nếu showroom đã tồn tại, trả về thông báo lỗi
-    if ($existingShowroom) {
-        toastr()->error('Chỉ có thể có một showroom với tên chứa từ "Kho" và trạng thái publish là 4.');
-        return redirect()->back()->withInput();
+        // Nếu showroom đã tồn tại với tên chứa "kho" và trạng thái publish = 4, trả về thông báo lỗi
+        if ($existingShowroom) {
+            toastr()->error('Chỉ có thể có một showroom với tên chứa "kho" và trạng thái publish là 4.');
+            return redirect()->back()->withInput();
+        }
+
+        // Gán publish = 4 nếu tên showroom chứa "kho"
+        $publishStatus = 4;
+    } else {
+        // Gán publish = 2 cho các showroom khác
+        $publishStatus = 2;
     }
 
-    // Kiểm tra xem có showroom nào đã có publish là 4
+    // Kiểm tra xem có showroom nào đã có publish = 4 (đối với các showroom khác)
     $existingPublishedShowroom = Showroom::where('publish', 4)->first();
 
-    // Nếu showroom đã tồn tại với publish = 4, trả về thông báo lỗi
-    if ($existingPublishedShowroom) {
+    // Nếu showroom đã tồn tại với publish = 4 và showroom hiện tại không phải là "Kho", trả về thông báo lỗi
+    if ($existingPublishedShowroom && $publishStatus == 4) {
         toastr()->error('Chỉ có thể có một showroom với trạng thái publish là 4.');
         return redirect()->back()->withInput();
     }
@@ -67,7 +76,9 @@ public function store(ShowroomRequest $request)
         'name' => $request->input('name'),
         'address' => $request->input('address'),
         'phone' => $request->input('phone'),
-        'publish' => 4, // Đặt publish thành 4 cho showroom này
+        'publish' => $publishStatus, // Đặt publish theo giá trị đã xác định
+        'longitude' => $request->input('longitude'), // Lưu kinh độ
+        'latitude' => $request->input('latitude'),   // Lưu vĩ độ
     ]);
 
     // Kiểm tra và xử lý hình ảnh
@@ -89,6 +100,41 @@ public function store(ShowroomRequest $request)
     // Redirect về trang danh sách showroom
     return redirect()->route('showroomcategory.index');
 }
+
+public function findNearestShowroom(Request $request)
+{
+    $lat = $request->query('lat');
+    $lon = $request->query('lon');
+
+    // Kiểm tra dữ liệu đầu vào
+    if (!$lat || !$lon) {
+        return response()->json(['error' => 'Missing latitude or longitude'], 400);
+    }
+
+    // Sử dụng công thức Haversine để tính khoảng cách giữa showroom và tọa độ người dùng
+    $showrooms = Showroom::where('publish', 2)->selectRaw("
+            id, name, latitude, longitude,
+            ( 6371 * acos( cos( radians(?) ) *
+              cos( radians( latitude ) ) *
+              cos( radians( longitude ) - radians(?) ) +
+              sin( radians(?) ) *
+              sin( radians( latitude ) ) )
+            ) AS distance", [$lat, $lon, $lat])
+        // Bỏ điều kiện giới hạn khoảng cách nếu muốn lấy tất cả showroom
+        // ->having('distance', '<', 50)  
+        ->orderBy('distance', 'asc')  // Sắp xếp showroom gần nhất
+        ->get();
+
+    // Kiểm tra nếu không có showroom nào
+    if ($showrooms->isEmpty()) {
+        return response()->json(['message' => 'No showrooms found near the specified location'], 404);
+    }
+
+    return response()->json([
+        'showrooms' => $showrooms
+    ]);
+}
+
 
 
 

@@ -14,7 +14,7 @@
             <div class="tab-pane fade show active" id="tab-item-register" role="tabpanel"
                 aria-labelledby="register-tab">
                 <div class="register-form">
-                    <form method="POST" action="{{ route('customer.check_register') }}" name="register-form" class="needs-validation" novalidate="">
+                    <form method="POST" action="{{ route('user.postRegister') }}" name="register-form" class="needs-validation" novalidate="">
                         @csrf
 
                         <div class="form-floating mb-3">
@@ -69,14 +69,9 @@
 
                         <div class="form-floating mb-3">
                             <input id="password-confirm" type="password" class="form-control form-control_gray"
-                                name="confirm_password" autocomplete="new-password">
+                                name="password_confirmation" autocomplete="new-password">
                             <label for="password-confirm">Confirm Password *</label>
-                            <!-- Hiển thị lỗi cho trường 'password' -->
-                            @error('confirm_password')
-                                <span class="error-message">* {{ $message }}</span>
-                            @enderror
                         </div>
-
 
                         <div class="d-flex align-items-center mb-3 pb-2">
                             <p class="m-0">Your personal data will be used to support your experience throughout this
@@ -88,7 +83,7 @@
 
                         <div class="customer-option mt-4 text-center">
                             <span class="text-secondary">Have an account?</span>
-                            <a href="{{ route('customer.login') }}" class="btn-text js-show-register">Login to your Account</a>
+                            <a href="{{ route('user.login') }}" class="btn-text js-show-register">Login to your Account</a>
                         </div>
                     </form>
                 </div>

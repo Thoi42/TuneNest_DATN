@@ -34,6 +34,7 @@ return [
     | Supported: "session"
     |
     */
+
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -44,7 +45,6 @@ return [
             'provider' => 'customers',
         ],
     ],
-
 
     /*
     |--------------------------------------------------------------------------
@@ -63,16 +63,22 @@ return [
     |
     */
 
-  'providers' => [
-    'users' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\User::class,
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customer::class,
+        ],
+
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
-    'customers' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Customer::class,
-    ],
-],
+
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords

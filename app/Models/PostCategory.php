@@ -23,7 +23,7 @@ class PostCategory extends Model
 
     // hàm lấy với danh mục cha
     public function scopeGetWithParent($query){
-        return $query->with('parent');
+        return $query->with('parent')->orderBy('id', 'DESC');
     }
 
     //hàm lấy category đang hoạt động

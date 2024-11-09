@@ -96,7 +96,7 @@
                             </span>
                         </span>
                     </button>
-                    <a href="{{Route('admin.logout')}}"
+                    <a href="#"
                         class="header-tools__item d-flex align-items-center justify-content-center">
                         <i class="fa fa-sign-out" style="font-size: 30px;" aria-hidden="true"></i>
                     </a>

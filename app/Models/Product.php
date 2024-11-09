@@ -43,7 +43,7 @@ class Product extends Model
 
 
     public function scopeGetProductPublish($query) {
-        return $query->where('publish', 2)->orderBy('id','DESC');
+        return $query->where('publish', 2);
     }
 
     public function scopeGenerateUniqueSlug($query, $str)

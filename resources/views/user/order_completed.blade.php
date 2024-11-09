@@ -93,10 +93,6 @@
                                     <td style="text-align: end">{{ number_format($discountAmount, 0, '.', ',') . ' VNĐ' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>ƯU ĐÃI THÀNH VIÊN</th>
-                                    <td style="text-align: end">{{ number_format($loyaltyAmount, 0, '.', ',') . ' VNĐ' }}</td>
-                                </tr>
-                                <tr>
                                     <th>TỔNG ĐƠN HÀNG</th>
                                     <td style="text-align: end">{{ number_format($order->total - $discountAmount, 0, '.', ',') . ' VNĐ' }}</td>
                                 </tr>

@@ -35,12 +35,12 @@ class Customer extends Authenticatable
 
     public function loyaltyLevel()
     {
-        return $this->belongsTo(LoyaltyLevel::class, 'loyalty_level_id', 'id');
+        return $this->belongsTo(LoyaltyLevel::class);
     }
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'customer_id', 'id');
+        return $this->hasMany(Order::class);
     }
 
     // public function favourites()

@@ -54,10 +54,10 @@
                                         <td>
                                             <div class="shopping-cart__product-item__detail">
                                                 <h4>{{ $item['name'] }}</h4>
-                                                <ul class="shopping-cart__product-item__options">
-                                                    <li>{{ $item->productCategory->name }}</li>
-                                                    <li>{{ $item->brand->name }}</li>
-                                                </ul>
+                                                {{-- <ul class="shopping-cart__product-item__options">
+                                                <li>Color: Yellow</li>
+                                                <li>Size: L</li>
+                                            </ul> --}}
                                             </div>
                                         </td>
                                         <td>
@@ -98,10 +98,9 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="mt-4 d-flex align-items-center justify-content-between"> 
+                        <div class="mt-4"> 
                             <a href="{{ route('home.index') }}"
                             class="btn btn-primary btn-comeback">TIẾP TỤC MUA HÀNG </a>
-                            <a class="btn-clear"  data-text="Bạn có chắc xóa hết giỏ hàng." data-url="{{ route('cart.clear') }}" href="#">Xóa hết</a>
                         </div>
                     </div>
                     <div class="shopping-cart__totals-wrapper">
@@ -111,13 +110,13 @@
                                 <table class="cart-totals">
                                     <tbody>
                                         <tr>
-                                            <th>Tạm tính</th>
+                                            <th>Tổng phụ</th>
                                             <td id="subtotalAmount">{{ number_format($total, 0, '.', ',') . ' VNĐ' }}</td>
                                         </tr>
-                                        {{-- <tr>
+                                        <tr>
                                             <th>VAT</th>
                                             <td>$19</td>
-                                        </tr> --}}
+                                        </tr>
                                         <tr>
                                             <th>Mã giảm giá</th>
                                             <td>
@@ -129,7 +128,7 @@
                                                         <select class="input-filter" name="coupon_code" id="coupon_code"
                                                             data-url="{{ route('cart.discount') }}">
                                                             <option value="">Mã giảm giá</option>
-                                                            @foreach ($validDiscounts['validDiscounts']  as $key => $val)
+                                                            @foreach ($validDiscounts  as $key => $val)
                                                                 <option value="{{ $val->id }}"
                                                                     {{ $coupon_code == $val->id ? 'selected' : '' }}>
                                                                     {{ $val->code }}
@@ -141,11 +140,6 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Ưu đãi thành viên</th>
-                                            <td id="loyalty_rate_Amount">
-                                                {{ number_format($loyaltyAmount, 0, '.', ',') . ' VNĐ' }}</td>
-                                        </tr>
-                                        <tr>
                                             <th>Giảm giá</th>
                                             <td id="discountAmount">
                                                 {{ number_format($discountAmount, 0, '.', ',') . ' VNĐ' }}</td>
@@ -153,7 +147,7 @@
                                         <tr>
                                             <th>Tổng thanh toán</th>
                                             <td id="totalAmount">
-                                                {{ number_format($total - $discountAmount - $loyaltyAmount, 0, '.', ',') . ' VNĐ' }}</td>
+                                                {{ number_format($total - $discountAmount, 0, '.', ',') . ' VNĐ' }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

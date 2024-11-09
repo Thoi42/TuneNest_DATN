@@ -9,8 +9,9 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        $customer = Auth::guard('customer')->user(); // Lấy thông tin người dùng hiện tại
+        $user = Auth::user(); // Lấy thông tin người dùng hiện tại
+
         // Trả về view 'profile' và truyền dữ liệu người dùng vào view
-        return view('acount-detail', compact('customer', 'loyalty'));
+        return view('acount-detail', compact('user'));
     }
 }

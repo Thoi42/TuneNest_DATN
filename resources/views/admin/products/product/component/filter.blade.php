@@ -34,7 +34,7 @@
                     @endphp
                     <select class="" name="category_id">
                         <option value="">Danh mục</option>
-                        @foreach ($productCategories as $val)
+                        @foreach ($productCategories as $val) <!-- Đổi từ $postCategories sang $productCategories -->
                             <option 
                             @if ($val->id == old('category_id', 
                             isset($category_id) ? $category_id : '')) selected

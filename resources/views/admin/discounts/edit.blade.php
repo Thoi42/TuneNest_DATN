@@ -1,65 +1,30 @@
 @extends('admin.layout.layout')
 
-@section('crumb_parent', 'Mã Giảm Giá')
-@section('title', 'Chỉnh Sửa Mã Giảm Giá')
-@section('main')
-    <div class="main-content-inner">
-        <div class="main-content-wrap">
-            <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-                <h3>@yield('title')</h3>
-                <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
-                    <li>
-                        <a href="{{ route('dashboard.index') }}">
-                            <div class="text-tiny">Dashboard</div>
-                        </a>
-                    </li>
-                    <li>
-                        <i class="icon-chevron-right"></i>
-                    </li>
-                    <li>
-                        <div class="text-tiny">@yield('crumb_parent')</div>
-                    </li>
-                </ul>
-            </div>
-
-            <form action="{{ route('admin.discounts.update', $discount) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="wg-box">
-                    <fieldset class="name">
-                        <div class="body-title mb-10">Mã <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="text" name="code" id="code" value="{{ $discount->code }}" required>
-                    </fieldset>
-                    <fieldset class="name">
-                        <div class="body-title mb-10">Tỷ lệ giảm giá <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="number" name="discount_rate" id="discount_rate" value="{{ $discount->discount_rate }}" required>
-                    </fieldset>
-                    <fieldset class="name">
-                        <div class="body-title mb-10">Giá trị tối đa <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="number" name="max_value" id="max_value" value="{{ $discount->max_value }}" required>
-                    </fieldset>
-                    <fieldset class="name">
-<<<<<<< Updated upstream
-=======
-                        <div class="body-title mb-10">Số lượng mã giảm giá <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="number" name="use_limit" id="use_limit" value="{{ $discount->use_limit }}" required>
-                    </fieldset>
-                    <fieldset class="name">
-                        <div class="body-title mb-10">Giá tối thiểu để được giảm <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="number" name="minimum_order_value" id="minimum_order_value" value="{{ $discount->minimum_order_value }}" required>
-                    </fieldset>
-                    <fieldset class="name">
->>>>>>> Stashed changes
-                        <div class="body-title mb-10">Ngày bắt đầu <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="date" name="start_date" id="start_date" value="{{ $discount->start_date }}" required>
-                    </fieldset>
-                    <fieldset class="name">
-                        <div class="body-title mb-10">Ngày kết thúc <span class="tf-color-1">*</span></div>
-                        <input class="mb-10" type="date" name="end_date" id="end_date" value="{{ $discount->end_date }}" required>
-                    </fieldset>
-                    <button type="submit" class="btn btn-primary">Cập Nhật Mã Giảm Giá</button>
-                </div>
-            </form>
+@section('content')
+    <h1>Chỉnh sửa mã giảm giá</h1>
+    <form action="{{ route('admin.discounts.update', $discount) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div>
+            <label for="code">Mã</label>
+            <input type="text" name="code" id="code" value="{{ $discount->code }}" required>
         </div>
-    </div>
+        <div>
+            <label for="discount_rate">Tỷ lệ giảm giá</label>
+            <input type="number" name="discount_rate" id="discount_rate" value="{{ $discount->discount_rate }}" required>
+        </div>
+        <div>
+            <label for="max_value">Giá trị tối đa</label>
+            <input type="number" name="max_value" id="max_value" value="{{ $discount->max_value }}" required>
+        </div>
+        <div>
+            <label for="start_date">Ngày bắt đầu</label>
+            <input type="date" name="start_date" id="start_date" value="{{ $discount->start_date }}" required>
+        </div>
+        <div>
+            <label for="end_date">Ngày kết thúc</label>
+            <input type="date" name="end_date" id="end_date" value="{{ $discount->end_date }}" required>
+        </div>
+        <button type="submit">Cập nhật</button>
+    </form>
 @endsection

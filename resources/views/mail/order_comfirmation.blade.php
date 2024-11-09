@@ -3,7 +3,7 @@
         <h1>Xin chào {{ $order->name }}</h1>
         <h2>Xác nhận đơn hàng TuneNest</h2>
         <h4>Bạn vừa có 1 đơn hàng từ shop TuneNest, xin kiểm tra lại đơn hàng và xác nhận!</h4>
-        <h4>Chi tiết đơn hàng của bạn, Mã đơn hàng #{{$order->id}}</h4>
+        <h4>Chi tiết đơn hàng của bạn, Mã đơn hàng {{$order->id}}</h4>
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
             <tr>
                 <th style="border: 1px solid #ccc; padding: 10px; text-align: left; background-color: rgb(185, 161, 107); color: #fff;">STT</th>

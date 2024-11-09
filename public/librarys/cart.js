@@ -49,20 +49,7 @@
                     $('.js-cart-items-count').text(data.cartCount);
                     $('#subtotalAmount').text(data.subtotal + ' VNĐ');
                     $('#discountAmount').text(data.discountAmount.toLocaleString() + ' VNĐ')
-                    // $('#totalAmount').text(data.total.toLocaleString() + ' VNĐ')
-
-                    var total = parseFloat(data.total.toString().replace(/,/g, '')) || 0;
-                    var loyaltyAmount = parseFloat(data.loyaltyAmount.toString().replace(/,/g, '')) || 0;
-
-                    var totalAmount = total - loyaltyAmount;
-
-                    console.log(total);
-                    console.log(loyaltyAmount);
-                    console.log(totalAmount);
-                    
-                    // Cập nhật giá trị vào giao diện người dùng
-                    $('#totalAmount').text(totalAmount.toLocaleString() + ' VNĐ');
-                    $('#loyalty_rate_Amount').text(loyaltyAmount.toLocaleString() + ' VNĐ');
+                    $('#totalAmount').text(data.total.toLocaleString() + ' VNĐ')
                     // Xóa sản phẩm khỏi bảng
                     _this.closest('tr').remove();
                     if (data.cartCount === 0) {
@@ -108,16 +95,8 @@
                         toastr.success(data.message);
                     }
                     // Cập nhật các giá trị hiển thị
-                    var total = parseFloat(data.total.toString().replace(/,/g, '')) || 0;
-                    var loyaltyAmount = parseFloat(data.loyaltyAmount.toString().replace(/,/g, '')) || 0;
-
-                    var totalAmount = total - loyaltyAmount;
-
-                    // Cập nhật giá trị vào giao diện người dùng
-                    $('#totalAmount').text(totalAmount.toLocaleString() + ' VNĐ');
-                    $('#loyalty_rate_Amount').text(loyaltyAmount.toLocaleString() + ' VNĐ');
                     $('#discountAmount').text(data.discountAmount.toLocaleString() + ' VNĐ'); // Cập nhật giảm giá
-                    // $('#totalAmount').text(data.total.toLocaleString() + ' VNĐ'); // Cập nhật tổng
+                    $('#totalAmount').text(data.total.toLocaleString() + ' VNĐ'); // Cập nhật tổng
                 },
                 error: function (xhr) {
                     toastr.error(xhr.responseJSON.message || 'Có lỗi xảy ra.');
@@ -155,15 +134,8 @@
             },
             success: function(response) {
                 if (response.success) {
-                    var total = parseFloat(response.total.toString().replace(/,/g, '')) || 0;
-                    var loyaltyAmount = parseFloat(response.loyaltyAmount.toString().replace(/,/g, '')) || 0;
-
-                    var totalAmount = total - loyaltyAmount;
-
-                    // Cập nhật giá trị vào giao diện người dùng
-                    $('#totalAmount').text(totalAmount.toLocaleString() + ' VNĐ');
-                    $('#loyalty_rate_Amount').text(loyaltyAmount.toLocaleString() + ' VNĐ');
                     $('#subtotalAmount').text(response.subtotal + ' VNĐ');
+                    $('#totalAmount').text(response.total + ' VNĐ');
                     $('#discountAmount').text(response.discountAmount.toLocaleString() + ' VNĐ')
                     $(`.shopping-cart__subtotal-${productId}`).text(response.productTotal + ' VNĐ'); 
 
@@ -184,7 +156,7 @@
                 }
             },
             error: function(xhr, status, error) {
-                // toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
+                toastr.error('Có lỗi xảy ra, vui lòng thử lại.');
             }
         });
     }
@@ -202,59 +174,12 @@
         });
     }
     
-    HT.ClearCart = () => {
-        $('.btn-clear').on('click', function(e){
-            e.preventDefault();
-            let _this = $(this)
-            var url = _this.data('url');
-            Swal.fire({
-                title: "Bạn có chắc chắn?",
-                html: _this.attr('data-text'),
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Có, Xóa nó!",
-                cancelButtonText: "Hủy"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Xóa!",
-                        text: "Dữ liệu của bạn đã được xóa.",
-                        icon: "success"
-                    }).then(() => {
-                        $.ajax({
-                            type: 'POST',
-                            url: url, // Sử dụng đường dẫn tương đối
-                            data: {
-                                _token: _token, // Lấy CSRF token
-                            },
-                            success: function(data){
-                                toastr.success(data.message);
-                                $('.shop-checkout').html(` <div class="cart-null">
-                                    <img src="/images/carts-null.png" alt="">
-                                    <a class="btn-comeback btn-comeback-pst" href="{{ route('home.index') }}"> Mua ngay </a>
-                                    </div>`);
-                                $('.js-cart-items-count').text(0)
-                            },
-                            error: function(jqXHR) {
-                                let errorMsg = jqXHR.responseJSON && jqXHR.responseJSON.error ? jqXHR.responseJSON.error : 'Đã có lỗi xảy ra, vui lòng thử lại.';
-                                toastr.error(errorMsg);
-                            }
-                        });
-                    });
-                }
-            });
-            
-        })
-    }
 
     $(document).ready(function () {
         HT.addToCart();
         HT.removeCart();
         HT.applyDiscount();
-        HT.changeQuantity();
-        HT.ClearCart()
+        HT.changeQuantity()
 
     });
 

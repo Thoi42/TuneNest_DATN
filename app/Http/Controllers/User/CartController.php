@@ -3,16 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
 use App\Models\Discount;
-use App\Models\LoyaltyLevel;
 use App\Models\Product;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
-use function Symfony\Component\Clock\now;
 
 class CartController extends Controller
 {
@@ -39,7 +34,7 @@ class CartController extends Controller
             $discountCode = session('discount_code');
             $discount = Discount::GetDiscount()->where('id', $discountCode)->first();
             // Kiểm tra nếu mã giảm giá vẫn hợp lệ
-            if ($discount && $discount->use_count < $discount->use_limit) {
+            if ($discount) {
                 $discountRate = $discount->discount_rate;
                 $discountAmount = ($total * $discountRate) / 100;
                 if ($discountAmount > $discount->max_value) {
@@ -54,25 +49,13 @@ class CartController extends Controller
         return $discountAmount;
     }
 
-    public function loyatal_level($total){
-        $customer = Auth::guard('customer')->user();
-        $loyaltyAmount = 0;
-        if ($customer) {
-            $loyaltyAmount = $customer->loyaltyLevel->discount_rate * $total;
-        }
-        return $loyaltyAmount; //tính tiền giảm giá thành viên
-        
-    }
-
     public function index(Request $request)
     {
         // try {
             if (session()->has('discount_code')) {
                 session()->forget('discount_code');
             }
-            
-            $customer = Auth::guard('customer')->user();
-            
+
             $carts = session()->get('carts', []);
             $discounts = Discount::get();
   
@@ -82,22 +65,15 @@ class CartController extends Controller
             // Tính tổng tiền
             $total = $this->calculateTotal($carts, $products);
             
-            //tính tiền giảm giá thành viên
-            $loyaltyAmount = 0;
-            if ($customer) {
-                $loyaltyAmount = $customer->loyaltyLevel->discount_rate * $total;
+            $validDiscounts = [];
+            foreach ($discounts as $discount) {
+                if ($total >= $discount->minimum_total_value) {
+                    $validDiscounts[] = $discount;
+                }
             }
 
-            // $validDiscounts = [];
-            // foreach ($discounts as $discount) {
-            //     if ($total >= $discount->minimum_total_value && $discount->use_count < $discount->use_limit && Carbon::now()->isBefore($discount->end_date)) {
-            //         $validDiscounts[] = $discount;
-            //     }
-            // }
-            $validDiscounts = $this->ValidDiscounts($total);
             $discountAmount = $this->applyDiscount($total);
-            // dd($validDiscounts);    
-            return view('user.cart', compact('products', 'total', 'discountAmount', 'discounts', 'validDiscounts', 'loyaltyAmount'));
+            return view('user.cart', compact('products', 'total', 'discountAmount', 'discounts', 'validDiscounts'));
         // } catch (\Exception $e) {
         //     Log::error($e->getMessage());
         //     return response()->json(['message' => 'Có lỗi xảy ra khi tải giỏ hàng.'], 500);
@@ -134,7 +110,7 @@ class CartController extends Controller
         $validDiscounts = [];
         $discountInvalid = false;
         foreach ($discounts as $discount) {
-            if ($total >= $discount->minimum_total_value && $discount->use_count < $discount->use_limit) {
+            if ($total >= $discount->minimum_total_value) {
                 $validDiscounts[] = $discount;
             }else{
                 // Nếu tổng không đủ điều kiện, xoá session
@@ -186,8 +162,7 @@ class CartController extends Controller
             $discountAmount = $this->applyDiscount($total);
             // Lấy các mã giảm giá hợp lệ
             $validDiscounts = $this->ValidDiscounts($total);
-            // giảm giá thành viên
-            $loyaltyAmount = $this->loyatal_level($total);
+
             return response()->json([
                 'success' => 'Cập nhật số lượng thành công',
                 'subtotal' => number_format($total, 0, '.', ','),
@@ -196,8 +171,7 @@ class CartController extends Controller
                 'productTotal' => number_format($productTotal, 0, '.', ','), 
                 'validDiscounts' => $validDiscounts['validDiscounts'], 
                 'discountInvalid' => $validDiscounts['discountInvalid'],
-                'sessionDiscount' => $validDiscounts['discount'],
-                'loyaltyAmount' => number_format($loyaltyAmount, 0, '.', ','),
+                'sessionDiscount' => $validDiscounts['discount']
             ]);
         // } catch (\Exception $e) {
         //     Log::error($e->getMessage());
@@ -218,8 +192,7 @@ class CartController extends Controller
 
             // Tính tổng tiền ban đầu
             $total = $this->calculateTotal($carts, $products);
-            // giảm giá thành viên
-            $loyaltyAmount = $this->loyatal_level($total);
+
             if ($code == '') {
                 session()->forget('discount_code');
             } else {
@@ -235,20 +208,14 @@ class CartController extends Controller
                         'message' => 'Mã giảm giá đã được áp dụng.',
                         'discountAmount' => number_format($discountAmount, 0, '.', ','),
                         'total' => $total - $discountAmount, // Tổng sau khi giảm giá
-                        'loyaltyAmount' => number_format($loyaltyAmount, 0, '.', ','), 
                     ]);
                 } else {
                     return response()->json(['message' => 'Mã giảm giá không hợp lệ hoặc đã hết hạn.'], 400);
                 }
             }
-            
 
             // Nếu không có mã giảm giá, trả về tổng không thay đổi
-            return response()->json([
-                'total' => $total, 
-                'loyaltyAmount' => number_format($loyaltyAmount, 0, '.', ','), 
-                'discountAmount' => 0,
-            ]);
+            return response()->json(['total' => $total, 'discountAmount' => 0]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => 'Có lỗi xảy ra, vui lòng thử lại.'], 500);
@@ -278,8 +245,7 @@ class CartController extends Controller
             $discountAmount = $this->applyDiscount($total);
 
             $validDiscounts = $this->ValidDiscounts($total);
-            // giảm giá thành viên
-            $loyaltyAmount = $this->loyatal_level($total);
+            
             return response()->json([
                 'message' => 'Xóa thành công.',
                 'cartCount' => count($carts),
@@ -288,20 +254,11 @@ class CartController extends Controller
                 'discountAmount' => number_format($discountAmount, 0, '.', ','),
                 'validDiscounts' => $validDiscounts['validDiscounts'], 
                 'discountInvalid' => $validDiscounts['discountInvalid'],
-                'sessionDiscount' => $validDiscounts['discount'],
-                'loyaltyAmount' => number_format($loyaltyAmount, 0, '.', ','),
+                'sessionDiscount' => $validDiscounts['discount']
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => 'Có lỗi xảy ra, vui lòng thử lại.'], 500);
         }
-    }
-
-
-    public function clear(){
-        
-        session()->forget('carts');
-
-        return response()->json(['message' => 'Giỏ hàng đã được dọn sạch']);
     }
 }

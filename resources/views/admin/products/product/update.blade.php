@@ -114,17 +114,15 @@
                                     <select name="category_id">
                                         <option value="">--Chọn danh mục--</option>
                                         @foreach ($categories as $val)
-                                            <option 
-                                            @if ($val->id == old('category_id', $product->category_id)) selected
-                                            @endif
-                                            value="{{ $val->id }}">
-                                            @php
-                                            $str = '';
-                                            for ($i=0; $i < $val->level ; $i++) {
-                                                echo $str;
-                                                $str .= '-- ';    
-                                            }
-                                            @endphp
+                                            <option @if ($val->id == old('category_id', $product->category_id)) selected @endif
+                                                value="{{ $val->id }}">
+                                                @php
+                                                    $str = '';
+                                                    for ($i = 0; $i < $val->level; $i++) {
+                                                        echo $str;
+                                                        $str .= '-- ';
+                                                    }
+                                                @endphp
                                                 {{ $val->name }}
                                             </option>
                                         @endforeach

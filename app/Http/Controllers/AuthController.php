@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::id() > 0) {
-            return redirect()->route('customer.profile');
+            return redirect()->route('user.profile');
         }
         return view('user.login');
     }
@@ -27,7 +27,7 @@ class AuthController extends Controller
             return redirect()->route('user.shop.index')->with('success', 'Đăng nhập thành công');
         }
 
-        return redirect()->route('customer.login')->with('error', 'Email hoặc Mật khẩu không chính xác');
+        return redirect()->route('user.login')->with('error', 'Email hoặc Mật khẩu không chính xác');
     }
    
     public function register()
@@ -45,7 +45,7 @@ class AuthController extends Controller
                 'password' => Hash::make($request->input('password')),
             ]);
 
-            return redirect()->route('customer.login')->with('success', 'Đăng ký thành công. Bạn có thể đăng nhập ngay bây giờ.');
+            return redirect()->route('user.login')->with('success', 'Đăng ký thành công. Bạn có thể đăng nhập ngay bây giờ.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại sau.');
         }
@@ -59,6 +59,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('customer.login');
+        return redirect()->route('user.login');
     }
 }

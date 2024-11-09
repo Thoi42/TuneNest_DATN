@@ -1885,7 +1885,6 @@ Xem thêm
                 'price_sale' => $data['price_sale'],
                 'view' => $faker->numberBetween(0, 1000),
                 'short_description' => $data['short_description'],
-                
                 'description' => $data['description'],
                 'publish' => 2,
                 'slug' => Str::slug($data['name']),

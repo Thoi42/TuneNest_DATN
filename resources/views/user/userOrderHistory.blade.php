@@ -111,6 +111,7 @@
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <use href="#icon_heart" />
                                                     </svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

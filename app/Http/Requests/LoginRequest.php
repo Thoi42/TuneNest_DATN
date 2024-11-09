@@ -22,7 +22,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:customers',
+            'email' => 'required|email',
             'password' => 'required|min:8',
         ];
     }
@@ -37,7 +37,6 @@ class LoginRequest extends FormRequest
         return [
             'email.required' => 'Bạn chưa nhập vào email.',
             'email.email' => 'Email chưa đúng định dạng. Ví dụ: abc@gmail.com',
-            'email.exists' => 'Email không tồn tại',
             'password.required' => 'Bạn chưa nhập vào mật khẩu.',
             'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
         ];

@@ -276,15 +276,12 @@
                           <a href="{{ route('product.detail', $product->slug) }}" class="btn-link btn-link_lg me-4 text-uppercase fw-medium" title="Quick view">
                             <span class="">Quick View</span>
                           </a>
-                          <form action="{{ route('wishlist.add', $product->id) }}" method="POST" style="display:inline;">
-                              @csrf
-                              <button type="submit" class="menu-link menu-link_us-s add-to-wishlist">
-                                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <use href="#icon_heart" />
-                                  </svg>
-                                  <span>Yêu thích</span>
-                              </button>
-                          </form>
+                          <button class="pc__btn-wl bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_heart" />
+                            </svg>
+                          </button>
                         
                       </div>
                     </div>
@@ -359,31 +356,22 @@
                         <use href="#icon_view" />
                       </svg></span>
                   </button>
-                  <form action="{{ route('wishlist.add', $product->id) }}" method="POST" style="display:inline;">
-                      @csrf
-                      <button type="submit" class="menu-link menu-link_us-s add-to-wishlist">
-                          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <use href="#icon_heart" />
-                          </svg>
-                          <span>Yêu thích</span>
-                      </button>
-                  </form>
+                  <button class="pc__btn-wl bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <use href="#icon_heart" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
           @endforeach
         </div><!-- /.row -->
+
         {{-- <div class="text-center mt-2">
           <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#">Load More</a>
         </div> --}}
       </section>
-      
-      {{-- Tin tức và sự kiên --}}
-
-      @include('user.partials.post_index')
-
-      {{-- end Tin tức và sự kiên --}}
     </div>
 
     <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>

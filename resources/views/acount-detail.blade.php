@@ -13,7 +13,7 @@
             <li><a href="account-details.html" class="menu-link menu-link_us-s">Account Details</a></li>
             <li><a href="account-wishlist.html" class="menu-link menu-link_us-s">Wishlist</a></li>
             <li>
-                <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
                 <a href="#" class="menu-link menu-link_us-s" 
@@ -31,20 +31,20 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-floating my-3">
-                      <input type="text" class="form-control" placeholder="Full Name" name="name" value="{{ $customer->name }}" required="">
+                      <input type="text" class="form-control" placeholder="Full Name" name="name" value="{{ $user->name }}" required="">
                       <label for="name">Name</label>
                     </div>
                   </div>
                   <div class="col-md-12">
                     <div class="form-floating my-3">
-                      <input type="text" class="form-control" placeholder="Mobile Number" name="mobile" value="{{ $customer->phone }}"
+                      <input type="text" class="form-control" placeholder="Mobile Number" name="mobile" value="{{ $user->phone }}"
                         required="">
                       <label for="mobile">Mobile Number</label>
                     </div>
                   </div>
                   <div class="col-md-12">
                     <div class="form-floating my-3">
-                      <input type="email" class="form-control" placeholder="Email Address" name="email" value="{{ $customer->email }}"
+                      <input type="email" class="form-control" placeholder="Email Address" name="email" value="{{ $user->email }}"
                         required="">
                       <label for="account_email">Email Address</label>
                     </div>

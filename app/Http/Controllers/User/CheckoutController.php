@@ -4,19 +4,18 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderConfirmation;
 use App\Mail\OrderSuccess;
-use App\Models\Customer;
 use App\Models\Discount;
-use App\Models\LoyaltyLevel;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\ShowroomProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Nette\Utils\Random;
-
+use Illuminate\Support\Facades\DB;
 class CheckoutController extends Controller
 {
      // Hàm tính tổng tiền giỏ hàng
@@ -56,19 +55,8 @@ class CheckoutController extends Controller
         return $discountAmount;
     }
 
-    public function loyatal_level($total){
-        $customer = Auth::guard('customer')->user();
-        $loyaltyAmount = $customer->loyaltyLevel->discount_rate * $total;
-        return $loyaltyAmount; //tính tiền giảm giá thành viên
-        
-    }
+    public function checkout(){
 
-    public function checkout(Request $request){
-        if ($request->has('resultCode')) {
-            if ($request->input('resultCode') == 0) {
-                return redirect()->route('checkout.completed');
-            }
-        }
         $customer = Auth::guard('customer')->user();
         $carts = session()->get('carts', []);
         if (empty($carts)) {
@@ -81,68 +69,8 @@ class CheckoutController extends Controller
 
         $subtotal = $this->calculateTotal($carts, $products);
         $discountAmount = $this->applyDiscount($subtotal);
-        // giảm giá thành viên
-        $loyaltyAmount = $this->loyatal_level($subtotal);
     
-        return view('user.checkout',compact('customer', 'products', 'subtotal', 'discounts','discountAmount','loyaltyAmount'));
-        
-    }
-    private function execPostRequest($url, $data)
-    {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data))
-        );
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        //execute post
-        $result = curl_exec($ch);
-        //close connection
-        curl_close($ch);
-        return $result;
-    }
-    
-    private function momo_payment(){
-        
-        // include "../common/helper.php";
-        
-        $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-        $partnerCode = 'MOMOBKUN20180529';
-        $accessKey = 'klm05TvNBzhg7h7j';
-        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-        $orderInfo = "Thanh toán qua ATM MoMo";
-        $amount = "10000";
-        $orderId = time() . "";
-        $redirectUrl = route('checkout');
-        $ipnUrl = route('checkout');
-        $extraData = "";
-    
-        $requestId = time() . ""; 
-        $requestType = "payWithATM"; // thanh toán với ATM
-        // $requestType = "captureWallet"; // thanh toán mã QR
-        //before sign HMAC SHA256 signature
-        $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
-        $signature = hash_hmac("sha256", $rawHash, $secretKey);
-        $data = array('partnerCode' => $partnerCode,
-        'partnerName' => "Test",
-        "storeId" => "MomoTestStore",
-        'requestId' => $requestId,
-        'amount' => $amount,
-        'orderId' => $orderId,
-        'orderInfo' => $orderInfo,
-        'redirectUrl' => $redirectUrl,
-        'ipnUrl' => $ipnUrl,
-        'lang' => 'vi',
-        'extraData' => $extraData,
-        'requestType' => $requestType,
-        'signature' => $signature);
-        $result = $this->execPostRequest($endpoint, json_encode($data));
-        $jsonResult = json_decode($result, true);  // decode json
-        return redirect()->to($jsonResult['payUrl']);
+        return view('user.checkout',compact('customer', 'products', 'subtotal', 'discounts','discountAmount'));
         
     }
 
@@ -229,7 +157,7 @@ class CheckoutController extends Controller
                 $order->save();
     
                 // Xóa session
-                // session()->forget('carts');
+                session()->forget('carts');
                 Mail::to($order->email)->send(new OrderSuccess($order));
                 toastr()->success('Thanh toán thành công');
                 return redirect()->route('checkout.completed'); // Chuyển hướng đến trang hoàn tất
@@ -244,28 +172,38 @@ class CheckoutController extends Controller
         $method = $request->input('checkout_payment_method');
         $carts = session()->get('carts', []);
         $products = Product::GetProductPublish()->whereIn('id', array_column($carts, 'id'))->get();
-        
+    
         $subtotal = $this->calculateTotal($carts, $products); // Tính tổng tiền giỏ hàng
         $discountAmount = $this->applyDiscount($subtotal); // Tính giảm giá
-        $loyaltyAmount = $this->loyatal_level($subtotal); // giảm giá thành viên
-        $total = $subtotal - $discountAmount - $loyaltyAmount; // Tính tổng số tiền sau khi giảm giá
+        $total = $subtotal - $discountAmount; // Tính tổng số tiền sau khi giảm giá
         $token = Str::random(40); // tạo token xác nhận
+    
+        // Lấy thông tin showroom gần nhất từ request
+        $nearestShowrooms = json_decode($request->input('nearest_showrooms'), true); // Chuyển chuỗi JSON thành mảng
+    
+        // Sắp xếp showroom theo khoảng cách từ gần đến xa
+        usort($nearestShowrooms, function ($a, $b) {
+            return $a['distance'] <=> $b['distance']; // So sánh khoảng cách
+        });
+    
+        // Dữ liệu đơn hàng
         $data = [
             'customer_id' => Auth::guard('customer')->user()->id,
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
-            'status' => 'Chưa xác nhận',
+            'status' => 'Chưa thanh toán',
             'payment_method' => $method,
             'customer_note' => $request->input('customer_note'),
             'total' => $total,
             'token' => $token,
         ];
         $order = Order::create($data);
+    
         if ($order) {
             session(['order' => $order->id]); // lưu vào session
-            foreach($products as $product){
+            foreach ($products as $product) {
                 $detail = [
                     'order_id' => $order->id,
                     'product_id' => $product->id,
@@ -273,81 +211,75 @@ class CheckoutController extends Controller
                     'price' => $product->price_sale ? $product->price_sale : $product->price,
                 ];
                 OrderDetail::create($detail);
+    
+                // Giảm số lượng tồn kho sản phẩm trong showroom gần nhất
+                $remainingQuantity = $carts[$product->id]['quantity']; // Tổng số lượng cần giảm
+    
+                // Duyệt qua các showroom gần nhất và cập nhật tồn kho
+                foreach ($nearestShowrooms as $showroom) {
+                    // Tìm bản ghi showroom_product dựa trên showroom_id và product_id
+                    $showroomProduct = ShowroomProduct::where('showroom_id', $showroom['id'])
+                        ->where('product_id', $product->id)
+                        ->first();
+    
+                    if ($showroomProduct && $showroomProduct->stock >= $remainingQuantity) {
+                        // Trừ số lượng tồn kho của sản phẩm trong showroom
+                        ShowroomProduct::where('showroom_id', $showroom['id'])
+                            ->where('product_id', $product->id)
+                            ->decrement('stock', $remainingQuantity);
+    
+                        // Đã tìm thấy showroom đủ stock, gán remainingQuantity bằng 0 để thoát khỏi vòng lặp
+                        $remainingQuantity = 0;
+                        break;
+                    }
+                }
+    
+                // Nếu sau khi duyệt hết các showroom mà số lượng vẫn còn, có thể thông báo lỗi
+                if ($remainingQuantity > 0) {
+                    toastr()->error("Sản phẩm {$product->name} không đủ số lượng trong các showroom.");
+                    return redirect()->back();
+                }
             }
-            
-            //nếu có method là VNPAY thì chuyển đến VNPAY
-            if ($method == 'Thanh toán khi nhận hàng') {
-                
-            }
+    
+            session()->forget('carts');
+            // Nếu có method là VNPAY thì chuyển đến VNPAY
             if ($method == 'Thanh toán VNPAY') {
                 return $this->vnpay_payment($order->id);
             }
-            if ($method == 'Thanh toán MoMo') {
-                return $this->momo_payment();
-            }
-
+    
             Mail::to($order->email)->send(new OrderConfirmation($order, $token));
             toastr()->success('Thanh toán thành công');
             return redirect()->route('checkout.completed');
-        }else{
+        } else {
             toastr()->error('Thanh toán thất bại');
             return redirect()->back();
         }
-        
     }
+    
+    
+    
+    
+    
     
     public function order_completed(){
         // Lấy order_id từ session
         $order_id = session('order');
         // Tìm đơn hàng theo order_id
         $order = Order::find($order_id);
-         // giảm giá thành viên
-        $loyaltyAmount = $this->loyatal_level($order->total);
-        $discountAmount = $this->applyDiscount($order->total);
-        // Lấy chi tiết sản phẩm trong đơn hàng (quan hệ đã được thiết lập)
-        $orderDetails = $order->orderDetails;
         if(!$order){
             toastr()->success('Cám ơn bạn <3');
             return redirect()->route('home.index');
-        }else{
-            // Xóa order_id khỏi session để tránh hiển thị lại đơn hàng này
-            session()->forget('carts');
-            $discount = Discount::where('id',session('discount_code'))->first();
-            if ($discount) {
-                $discount->use_count += 1;
-                $discount->save();
-            }
-            $customer = Customer::firstWhere('id', Auth::guard('customer')->user()->id); // Lấy thông tin khách hàng
-
-            $order_total = $customer->orders; // Lấy tất cả các đơn hàng của khách hàng
-            $order_total_price = 0; // Biến để lưu tổng giá trị đơn hàng
-
-            // Tính tổng giá trị đơn hàng
-            foreach ($order_total as $item) {
-                $order_total_price += $item->total; // Cộng dồn tổng giá trị đơn hàng
-            }
-
-            // Lấy tất cả các mức loyalty level (giả định rằng có trường `threshold` trong bảng loyalty levels)
-            $loyaltyLevels = LoyaltyLevel::orderBy('order_total_price', 'asc')->get(); // Lấy danh sách các cấp độ theo thứ tự tăng dần
-
-            // Kiểm tra từng mức loyalty level
-            foreach ($loyaltyLevels as $loyaltyLevel) {
-                if ($order_total_price > $loyaltyLevel->order_total_price) { 
-                    // Nếu tổng giá trị đơn hàng lớn hơn mức threshold hiện tại, cập nhật loyalty_level_id
-                    $customer->loyalty_level_id = $loyaltyLevel->id; // Cập nhật cấp độ thành viên của khách hàng
-                }
-            }
-
-            // Lưu thay đổi vào cơ sở dữ liệu
-            $customer->save();
-
-            session()->forget('discount_code');
-            session()->forget('order');
-
-            // Trả về view với dữ liệu đơn hàng và chi tiết sản phẩm
-            return view('user.order_completed', compact('order', 'orderDetails','discountAmount', 'loyaltyAmount'));
         }
-        
+        $discountAmount = $this->applyDiscount($order->total);
+        // Lấy chi tiết sản phẩm trong đơn hàng (quan hệ đã được thiết lập)
+        $orderDetails = $order->orderDetails;
+
+        // Xóa order_id khỏi session để tránh hiển thị lại đơn hàng này
+        session()->forget('discount_code');
+        session()->forget('order');
+
+        // Trả về view với dữ liệu đơn hàng và chi tiết sản phẩm
+        return view('user.order_completed', compact('order', 'orderDetails','discountAmount'));
     }
 
     public function verify($token)

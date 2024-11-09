@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-                @foreach ($postCategories as $index => $item)
+                @foreach ($categories as $index => $item)
                     <tr>
                         <td class="text-center">{{ $categories->currentPage() * $categories->perPage() - $categories->perPage() + $index + 1 }}
                         </td>
@@ -29,13 +29,13 @@
                         </td>
                         <td>
                             <div class="name">
-                                @php
+                                {{-- @php
                                     $str = '';
                                     for($i = 0 ; $i < $item->level ; $i++){
-                                        echo $str;
-                                        $str .= '-- ';    
-                                    }
-                                @endphp
+                                    echo $str;
+                                    $str .= '-- ';    
+                                }
+                                @endphp --}}
                                 <a href="#" class="body-title-2">{{ $item->name }}</a>
                             </div>
                         </td>

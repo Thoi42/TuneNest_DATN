@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom-admin.css') }}">
+<!-- Thêm Link CSS cho Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
 
 
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.3/dist/sweetalert2.min.css" rel="stylesheet">

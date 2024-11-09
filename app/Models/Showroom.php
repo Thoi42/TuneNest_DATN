@@ -14,6 +14,7 @@ class Showroom extends Model
         'phone',
         'image',
         'publish',
+        'longitude', 'latitude'
     ];
     public function products()
     {

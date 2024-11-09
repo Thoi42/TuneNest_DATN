@@ -13,9 +13,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'phone',
+        'phone',  // Đảm bảo trường phone có trong danh sách fillable
         'password',
-        'role_id', // Thêm role_id để quản lý phân quyền
     ];
 
     protected $hidden = [
@@ -23,26 +22,25 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+
+    public function posts() {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
-
-    // Thiết lập quan hệ với Role
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    // Kiểm tra nếu người dùng là admin
-    public function isAdmin()
-    {
-        return $this->role_id === 2; // role_id = 2 là admin
-    }
-
-    // Kiểm tra nếu người dùng là customer
-    public function isCustomer()
-    {
-        return $this->role_id === 1; // role_id = 1 là khách hàng
-    }
 }

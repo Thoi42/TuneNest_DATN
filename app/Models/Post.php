@@ -24,9 +24,6 @@ class Post extends Model
     public function scopeGetPostAll($query){
         return $query->orderBy('id', 'DESC')->with('users', 'postCategory');
     }
-    public function scopeGetPostPublish($query){
-        return $query->where('publish', 2)->orderBy('id', 'DESC')->with('users', 'postCategory');
-    }
 
     // hàm search
     public function scopeSearch($query, array $request = []){
@@ -73,10 +70,6 @@ class Post extends Model
 
         return $monthYear;
     }
-    
-    public function scopeGetWidget($query,$post_category_id){
-        return $query->where('post_category_id', $post_category_id)->where('id', '<>', $this->id) ;
-    }
 
     public function users(){
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -84,7 +77,6 @@ class Post extends Model
     public function postCategory(){
         return $this->belongsTo(PostCategory::class, 'post_category_id', 'id');
     }
-
 
       // quan hệ posts 1-N
     public function albums() {

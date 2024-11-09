@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discounts', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->decimal('discount_rate', 5, 2);
-            $table->decimal('max_value', 10, 2);
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->id(); 
+            $table->string('code')->unique(); 
+            $table->decimal('discount_rate', 5, 2); 
+            $table->decimal('max_value', 10, 2); 
+            $table->date('start_date'); 
+            $table->date('end_date'); 
+            $table->integer('use_limit')->nullable(); // Giới hạn số lần sử dụng
+            $table->integer('use_count')->default(0); // Số lần đã sử dụng
             $table->timestamps();
         });
     }
