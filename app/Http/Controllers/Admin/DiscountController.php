@@ -37,14 +37,14 @@ class DiscountController extends Controller
 
     public function store(DiscountCreateRequest $request)
     {
-        $discount = Discount::create($request->validated());
+        $discount = Discount::create($request->validated() + ['status' => $request->status]);
 
         if ($discount) {
             toastr()->success('Thêm mới thành công!');
         } else {
             toastr()->error('Thêm mới không thành công.');
         }
-        return redirect()->route('discount.index');
+        return redirect()->route('admin.discounts.index');
     }
 
     public function edit($id)
@@ -56,14 +56,14 @@ class DiscountController extends Controller
     public function update(DiscountUpdateRequest $request, $id)
     {
         $discount = Discount::findOrFail($id);
-        $updated = $discount->update($request->validated());
+        $updated = $discount->update($request->validated() + ['status' => $request->status]);
 
         if ($updated) {
             toastr()->success('Cập nhật thành công!');
         } else {
             toastr()->error('Cập nhật không thành công.');
         }
-        return redirect()->route('discount.index');
+        return redirect()->route('admin.discounts.index');
     }
 
     public function destroy($id)
@@ -72,7 +72,7 @@ class DiscountController extends Controller
         $discount->delete();
 
         toastr()->success('Xóa thành công!');
-        return redirect()->route('discount.index');
+        return redirect()->route('admin.discounts.index');
     }
 
     public function restore($id)
@@ -81,6 +81,6 @@ class DiscountController extends Controller
         $discount->restore();
 
         toastr()->success('Khôi phục thành công!');
-        return redirect()->route('discount.index');
+        return redirect()->route('admin.discounts.index');
     }
 }
