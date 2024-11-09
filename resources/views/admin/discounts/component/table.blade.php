@@ -51,7 +51,11 @@
                     <td class="text-center">
                         <div class="list-icon-function">
                             @if ($config == 'deleted')
+<<<<<<< Updated upstream
                                 <a href="{{ route('discount.restore', $item->id) }}" title="Khôi phục">
+=======
+                                <a href="{{ route('admin.discount.restore', $item->id) }}" title="Khôi phục">
+>>>>>>> Stashed changes
                                     <div class="item edit">
                                         <i class="fa-solid fa-retweet"></i>
                                     </div>
