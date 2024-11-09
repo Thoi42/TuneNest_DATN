@@ -13,6 +13,9 @@
                 </div>
 
                 <div class="col-lg-10">
+                    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 1000; background-color: #d4edda; color: #155724; padding: 15px; border: 1px solid #c3e6cb; border-radius: 5px;">
+                        <span id="notification-message"></span>
+                    </div>
                     <div class="wg-table table-all-user">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered">
