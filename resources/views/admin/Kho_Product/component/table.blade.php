@@ -138,15 +138,15 @@ function setModalData(element) {
 $(document).ready(function() {
     $('#showroomSearch').on('keyup', function() {
         const searchValue = $(this).val().toLowerCase();
-        $('#suggestions').empty(); // Xóa danh sách gợi ý cũ
+        $('#suggestions').empty(); // Clear old suggestions
 
         @foreach ($showroomid as $showroom)
-            if ('{{ $showroom->name }}'.toLowerCase().includes(searchValue)) {
+            if ('{{ $showroom->publish }}' != 4 && '{{ $showroom->name }}'.toLowerCase().includes(searchValue)) {
                 $('#suggestions').append('<li data-id="{{ $showroom->id }}" class="suggestion-item" style="padding: 5px; cursor: pointer;">{{ $showroom->name }}</li>');
             }
         @endforeach
 
-        $('#suggestions').toggle($('#suggestions li').length > 0); // Hiện/ẩn danh sách gợi ý
+        $('#suggestions').toggle($('#suggestions li').length > 0); // Show/hide suggestions list
     });
 
     // Xử lý sự kiện khi click vào gợi ý
