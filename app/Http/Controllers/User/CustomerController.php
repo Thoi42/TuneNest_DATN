@@ -87,28 +87,39 @@ class CustomerController extends Controller
         $loyalty = $customer->loyaltyLevel;
         return view('user.profile', compact('customer', 'loyalty'));
     }
+    public function account_detail(){
+        $customer = Auth::guard('customer')->user(); // Lấy thông tin người dùng hiện tại
+        $loyalty = $customer->loyaltyLevel;
+        return view('user.account-detail', compact('customer', 'loyalty'));
+    }
 
-    public function check_profile(UpdateProfileRequest $request)
+    public function check_account_detail(UpdateProfileRequest $request)
     {
-        $user = Auth::guard('customer')->user();
-
+        $user = Auth::guard('customer')->user();  // Lấy thông tin người dùng hiện tại
+        
         if ($request->filled('old_password') && !Hash::check($request->old_password, $user->password)) {
             return redirect()->back()->withErrors(['old_password' => 'Mật khẩu cũ không chính xác.']);
         }
-
+        
+        if ($request->filled('new_password') && Hash::check($request->new_password, $user->password)) {
+            return redirect()->back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ.']);
+        }
+        
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-
-        if ($request->filled('new_password')) {
-            $user->password = Hash::make($request->new_password);
+    
+        if ($request->filled('new_password') && $request->new_password === $request->new_password_confirmation) {
+            $user->password = Hash::make($request->new_password);  // Cập nhật mật khẩu mới
+        } elseif ($request->filled('new_password')) {
+            return redirect()->back()->withErrors(['new_password_confirmation' => 'Mật khẩu xác nhận không khớp với mật khẩu mới.']);
         }
-
+        
         $user->save();
-
-        return redirect()->route('customer.profile')->with('success', 'Cập nhật thông tin tài khoản thành công.');
+        
+        return redirect()->route('customer.account_detail')->with('success', 'Cập nhật thông tin tài khoản thành công.');
     }
-
+    
     public function forgot()
     {
         return view('user.forgot');

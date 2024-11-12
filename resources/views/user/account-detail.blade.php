@@ -8,22 +8,18 @@
         <div class="row">
             <div class="col-lg-3">
                 <ul class="account-nav">
-                    <li><a href="my-account.html" class="menu-link menu-link_us-s menu-link_active">Dashboard</a></li>
-                    <li><a href="account-orders.html" class="menu-link menu-link_us-s">Orders</a></li>
-                    <li><a href="account-address.html" class="menu-link menu-link_us-s">Addresses</a></li>
-                    <li><a href="account-details.html" class="menu-link menu-link_us-s">Account Details</a></li>
-                    <li><a href="account-wishlist.html" class="menu-link menu-link_us-s">Wishlist</a></li>
+                    @include('user.layouts.component.sidebarUser')
                 </ul>
             </div>
             <div class="col-lg-9">
-                <form action="{{ route('customer.chek_profile') }}" method="POST">
+                <form action="{{ route('customer.check_account_detail') }}" method="POST">
                     @csrf
                     <div class="page-content my-account__edit">
                         <div class="my-account__edit-form">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating my-3">
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Full Name" name="name" value="{{ old('name', $user->name) }}" required>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Full Name" name="name" value="{{ old('name', $customer->name) }}" required>
                                         <label for="name">Name</label>
                                         @error('name')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -32,7 +28,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating my-3">
-                                        <input type="text" class="form-control @error('phone') is-invalid @enderror" placeholder="Mobile Number" name="phone" value="{{ old('phone', $user->phone) }}" required>
+                                        <input type="text" class="form-control @error('phone') is-invalid @enderror" placeholder="Mobile Number" name="phone" value="{{ old('phone', $customer->phone) }}" required>
                                         <label for="phone">Mobile Number</label>
                                         @error('phone')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -41,7 +37,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating my-3">
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email Address" name="email" value="{{ old('email', $user->email) }}" required>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email Address" name="email" value="{{ old('email', $customer->email) }}" required>
                                         <label for="email">Email Address</label>
                                         @error('email')
                                             <span class="invalid-feedback">{{ $message }}</span>
