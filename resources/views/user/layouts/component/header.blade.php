@@ -46,8 +46,13 @@
                     </div>
 
                     <div class="search-popup js-hidden-content">
+<<<<<<< Updated upstream
                         <form action="#" method="GET" class="search-field container">
                             <p class="text-uppercase text-secondary fw-medium mb-4">Bạn muốn tìm gì?</p>
+=======
+                        <form action="{{ route('search') }}" method="GET" class="search-field container">
+                            <p class="text-uppercase text-secondary fw-medium mb-4">Bạn muốn tìm gì?</p>
+>>>>>>> Stashed changes
                             <div class="position-relative">
                                 <input class="search-field__input search-popup__input w-100 fw-medium"
                                     type="text" name="search-keyword" placeholder="Search products" />
@@ -59,6 +64,7 @@
                                 </button>
                                 <button class="btn-icon btn-close-lg search-popup__reset" type="reset"></button>
                             </div>
+<<<<<<< Updated upstream
 
                             <div class="search-popup__results">
                                 <div class="sub-menu search-suggestion">
@@ -81,6 +87,8 @@
 
                                 <div class="search-result row row-cols-5"></div>
                             </div>
+=======
+>>>>>>> Stashed changes
                         </form>
                     </div>
                 </div>
