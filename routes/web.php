@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\ShowroomController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductShowroomController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\CustomerController;
@@ -163,6 +164,7 @@ Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'cha
         Route::delete('forceDelete/{id}', [BrandController::class, 'forceDelete'])->name('brand.forceDelete');
     });
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     Route::prefix('order')->group(function () {
         Route::get('/', [AdminOrderController::class, 'index'])->name('order.index');
         Route::get('/pending', [AdminOrderController::class, 'OrderPending'])->name('order.pending');
@@ -180,6 +182,10 @@ Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'cha
         Route::delete('/{discount}', [DiscountController::class, 'destroy'])->name('admin.discounts.destroy');
     });
 <<<<<<< Updated upstream
+=======
+    //Search 
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
+>>>>>>> Stashed changes
 });
 <<<<<<< Updated upstream
 =======
